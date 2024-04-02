@@ -1,0 +1,57 @@
+/* autoprefixer grid: autoplace */
+@use '../theme';
+
+// Color Palette
+// #452E99
+// #5D4D99
+// #291F4D
+// #998D1F
+// #4D481F
+
+.main {
+  --navbar-color-white: var(--background-color);
+  --navbar-color-primary: #392094;
+  --navbar-width: 48px;
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.navbarVertical {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: var(--navbar-width);
+  height: 100%;
+  background-color: var(--navbar-color-primary);
+
+  a {
+    width: var(--navbar-width);
+    height: var(--navbar-width);
+    margin-top: 8px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  i {
+    font-size: 24px;
+    color: var(--navbar-color-white);
+  }
+}
+
+.mainFrame {
+  width: 100%;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  @include theme.pc {
+    width: calc(100% - var(--navbar-width));
+    min-height: 100vh;
+    margin-left: var(--navbar-width);
+  }
+}
+
