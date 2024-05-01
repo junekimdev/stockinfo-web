@@ -1,10 +1,10 @@
-# Template for React App
+# JK Stock Web Frontend
 
-![release-version](https://img.shields.io/github/v/release/junekimdev/template-react-app?display_name=tag)
-![last-commit](https://img.shields.io/github/last-commit/junekimdev/template-react-app)
-![license](https://img.shields.io/github/license/junekimdev/template-react-app)
+![release-version](https://img.shields.io/github/v/release/junekimdev/stockinfo-web?display_name=tag)
+![last-commit](https://img.shields.io/github/last-commit/junekimdev/stockinfo-web)
+![license](https://img.shields.io/github/license/junekimdev/stockinfo-web)
 
-Template for a React app
+This is the web frontend written in Typescript, React.JS, Next.JS for JK Stock website
 
 ## Table of Contents
 
@@ -157,4 +157,4 @@ node codegen.js --name=myComponent --V
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details
+No license is given by the author. All rights are reserved.

@@ -1,5 +1,4 @@
 import { useEffect } from 'react';
-import Example from '../components/example';
 import MainFrame from '../components/mainFrame';
 import Meta from '../components/meta';
 
@@ -13,13 +12,11 @@ const Page = () => {
   return (
     <>
       <Meta
-        title="Template | junekimdev"
-        desc="Template created by junekimdev"
+        title="Stockinfo | junekimdev"
+        desc="Stockinfo created by junekimdev"
         url={publicUrl}
       ></Meta>
-      <MainFrame>
-        <Example />
-      </MainFrame>
+      <MainFrame />
     </>
   );
 };

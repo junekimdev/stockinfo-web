@@ -1,8 +1,8 @@
 {
-  "name": "boilerplate-react-app",
-  "description": "boilerplate codes to quick-start a react app",
+  "name": "stockinfo-web",
+  "description": "web frontend for JK stock website",
   "version": "1.0.0",
-  "author": "YOUR NAME",
+  "author": "June Kim <godlyjune@gmail.com>",
   "license": "MIT",
   "private": true,
   "scripts": {
@@ -14,6 +14,7 @@
   },
   "dependencies": {
     "@tanstack/react-query": "^5.28.9",
+    "d3": "^7.9.0",
     "next": "^14.1.4",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
@@ -25,6 +26,7 @@
     "@tanstack/eslint-plugin-query": "^5.28.6",
     "@tanstack/react-query-devtools": "^5.28.10",
     "@testing-library/react": "^14.2.2",
+    "@types/d3": "^7.4.3",
     "@types/node": "^20.12.2",
     "@types/react": "^18.2.73",
     "@types/react-dom": "^18.2.23",

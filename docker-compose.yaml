@@ -2,13 +2,17 @@ version: '3.7'
 
 services:
   app:
-    image: junekimdev/reactapp:1.0-alpine
-    container_name: reactapp
+    image: node:lts
     restart: unless-stopped
     expose:
       - 3000
+    volumes:
+      - ./:/app
+    working_dir: /app
     networks:
       - nginx-proxy
+    hostname: dev-stockinfo-front
+    command: tail -f /dev/null
 
 networks:
   nginx-proxy:

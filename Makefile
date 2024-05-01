@@ -1,19 +1,14 @@
-.PHONY: all build update up down clean prune
+.PHONY: all update up down clean prune
 
-all: build
+all: up
 
-NAME=reactapp
-TAG=1.0-alpine
-
-build:
-	docker build \
-	--build-arg GIT_HASH=$(shell git rev-parse HEAD) \
-	-t junekimdev/$(NAME):$(TAG) .
+NAME=dev-stockinfo-front
+BRANCH=hotfix
 
 # This updates local repo
 update:
 	@if [ -d .git ];	then \
-		git fetch --all && git reset --hard origin/master; \
+		git fetch --all && git reset --hard origin/$(BRANCH); \
 	else \
 		echo "Git repo does not exist. Clone it first."; \
 	fi
