@@ -49,7 +49,7 @@ const draw = (
   const x = d3.scaleBand().range([0, chartWidth]).padding(0.2);
   const y = d3.scaleLinear().range([chartHeight, 0]);
   x.domain(candleData.map(getDateString));
-  y.domain([d3.min(candleData, (d) => d.low), d3.max(candleData, (d) => d.high)]).nice();
+  y.domain([d3.min(candleData, (d) => d.low) ?? 0, d3.max(candleData, (d) => d.high) ?? 1]).nice();
 
   // Draw the Y Axis
   chart
@@ -77,7 +77,7 @@ const draw = (
     .selectAll('rect')
     .data(candleData)
     .join('rect')
-    .attr('x', (d) => x(getDateString(d)))
+    .attr('x', (d) => x(getDateString(d)) ?? 0)
     .attr('y', (d) => y(Math.max(d.open, d.close)))
     .attr('height', (d) =>
       d.open !== d.close ? y(Math.min(d.open, d.close)) - y(Math.max(d.open, d.close)) : 1,

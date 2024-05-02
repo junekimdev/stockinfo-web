@@ -1,4 +1,4 @@
-import { useCallback, useEffect } from 'react';
+import { ChangeEvent, useCallback, useEffect } from 'react';
 import { useRecoilState, useResetRecoilState, useSetRecoilState } from 'recoil';
 import { LOCAL_STORAGE_KEY_RECENT_SEARCH_TABS } from '../../controllers/apiURLs';
 import {
@@ -24,14 +24,13 @@ export const useCompanyClick = (uuid: string, company: TypeCompany) => {
   const resetSearchInput = useResetRecoilState(StateSearchInput);
 
   return useCallback(() => {
-    const tabExists = companyTabs.reduce(
+    const tab: TypeCompanyTab = companyTabs.reduce(
       (p, v) => (v.company.srtnCd === company.srtnCd ? v : p),
-      undefined,
+      { uuid, company, mainType: 'daily' },
     );
-    const tab: TypeCompanyTab = tabExists ? tabExists : { uuid, company, mainType: 'daily' };
 
     // Add to tabs and set it as current
-    if (!tabExists) setCompanyTabs((v) => [tab, ...v]);
+    if (!tab) setCompanyTabs((v) => [tab, ...v]);
     setCurrentTab(tab);
     resetSearchInput();
 

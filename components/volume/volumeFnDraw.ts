@@ -30,7 +30,7 @@ const draw = (req: TypePriceRequest, data: TypeVolume[], marginLeft: number) => 
   const x = d3.scaleBand().range([0, chartWidth]).padding(0.2);
   const y = d3.scaleLinear().range([chartHeight, 0]);
   x.domain(data.map(getDateString));
-  y.domain([0, d3.max(data, (d) => d.volume)]).nice();
+  y.domain([0, d3.max(data, (d) => d.volume) ?? 1]).nice();
 
   // Draw the Y Axis
   const tickCnt = Math.floor(chartHeight / 15);
@@ -48,7 +48,7 @@ const draw = (req: TypePriceRequest, data: TypeVolume[], marginLeft: number) => 
     .selectAll('rect')
     .data(data)
     .join('rect')
-    .attr('x', (d) => x(getDateString(d)))
+    .attr('x', (d) => x(getDateString(d)) ?? 0)
     .attr('y', (d) => y(d.volume))
     .attr('height', (d) => y(0) - y(d.volume))
     .attr('width', x.bandwidth())

@@ -1,13 +1,8 @@
 import { useCallback, useEffect } from 'react';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { LOCAL_STORAGE_KEY_COMPANY_TABS } from '../apiURLs';
-import { StateCompanyTabs, StateDetailsOpened, StatePriceRequestCode } from './states';
-import { TypeCompanyTab, TypePriceRequest, TypePriceRequestType } from './types';
-
-export const usePriceRequest = (uuid: string, type: TypePriceRequestType) => {
-  const code = useRecoilValue(StatePriceRequestCode(uuid));
-  return { code, type } as TypePriceRequest;
-};
+import { StateCompanyTabs, StateDetailsOpened } from './states';
+import { TypeCompanyTab } from './types';
 
 export const useLoadCompanyTabs = () => {
   const setTabs = useSetRecoilState(StateCompanyTabs);

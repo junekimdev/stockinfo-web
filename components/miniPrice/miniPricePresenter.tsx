@@ -5,7 +5,7 @@ import styles from './miniPrice.module.scss';
 import draw from './miniPriceFnDraw';
 import Placeholder from './miniPriceViewPlaceholder';
 
-const Presenter = (props: { req: TypePriceRequest; max: number }) => {
+const Presenter = (props: { req: TypePriceRequest; max?: number }) => {
   const { req, max = 50 } = props;
   const { data } = useGetPrices(req);
   const chartID = `${styles.chart}-${req.code}-${req.type}`;

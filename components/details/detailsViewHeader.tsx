@@ -2,8 +2,8 @@ import { useRecoilValue } from 'recoil';
 import { DART_VIEWER_LINK } from '../../controllers/apiURLs';
 import { getDateString } from '../../controllers/chart';
 import { StateCurrentTab } from '../../controllers/data/states';
+import { TypePriceRequest } from '../../controllers/data/types';
 import { useGetPrices } from '../../controllers/net/price';
-import { getNumString } from '../../controllers/number';
 import styles from './details.module.scss';
 
 const View = (props: { reportCode?: string }) => {
@@ -33,11 +33,11 @@ const View = (props: { reportCode?: string }) => {
         </div>
         <div className={styles.headerItem}>
           <h5>Closed At :</h5>
-          <span>{getNumString(latestPrice?.close)}</span>
+          <span>{latestPrice?.close.toLocaleString()}</span>
         </div>
         <div className={styles.headerItem}>
           <h5>Stock Counts :</h5>
-          <span>{getNumString(latestPrice?.base_stock_cnt)}</span>
+          <span>{latestPrice?.base_stock_cnt.toLocaleString()}</span>
         </div>
       </div>
     </header>

@@ -18,7 +18,7 @@ import styles from './charts.module.scss';
 
 export const useRulerOnClick = () => {
   return useCallback((e: MouseEvent<HTMLElement>) => {
-    const ruler = document.querySelector(`.${styles.ruler}`);
+    const ruler = document.querySelector<HTMLElement>(`.${styles.ruler}`);
     if (ruler) {
       const x = Math.round(e.clientX - e.currentTarget.offsetLeft + e.currentTarget.scrollLeft);
       ruler.style.left = `${x}px`;
@@ -57,7 +57,7 @@ export const useHeikinAshiSmoothed = (req: TypePriceRequest, p1 = 10, p2 = 10) =
   useEffect(() => {
     if (data && data.length > 1 && !dataHeikinAshiSmoothed.length) {
       const smoothed = getPriceEMA(getPriceEMA(data, p1), p2);
-      setState(smoothed);
+      if (smoothed) setState(smoothed);
     }
   }, [data, dataHeikinAshiSmoothed]);
 };
@@ -118,7 +118,9 @@ export const useSAR = (req: TypePriceRequest, max = 0.2, step = 0.01) => {
           ep = isUpTrend ? data[i].high : data[i].low;
           af = step;
         } else {
-          [ep, foundNewEP] = nextEP(data[i], ep, isUpTrend);
+          const { newEp, found } = nextEP(data[i], ep, isUpTrend);
+          ep = newEp;
+          foundNewEP = found;
           if (foundNewEP) af = nextAF(af, step, max);
           thisSAR = nextSAR(result[i - 1].sar, ep, af);
           if (detectCollision(data[i], thisSAR, isUpTrend)) {
@@ -141,13 +143,13 @@ export const useSAR = (req: TypePriceRequest, max = 0.2, step = 0.01) => {
 };
 
 const nextEP = (price: TypePrice, prevEP: number, isUpTrend: boolean) => {
-  const foundNewEP = true;
+  const found = true;
   if (isUpTrend) {
-    if (price.high > prevEP) return [price.high, foundNewEP];
+    if (price.high > prevEP) return { newEp: price.high, found };
   } else {
-    if (price.low < prevEP) return [price.low, foundNewEP];
+    if (price.low < prevEP) return { newEp: price.low, found };
   }
-  return [prevEP, !foundNewEP];
+  return { newEp: prevEP, found: !found };
 };
 
 const nextAF = (prevAF: number, step: number, max: number) => {

@@ -9,7 +9,7 @@ import Header from './detailsViewHeader';
 import Income from './detailsViewIncome';
 import SoFP from './detailsViewSoFP';
 
-const getData = (res: TypeDartStatementRes, sj_div: string, account_id: string) => {
+const getData = (res: TypeDartStatementRes | undefined, sj_div: string, account_id: string) => {
   return res?.list?.filter((v) => v.sj_div === sj_div && v.account_id === account_id)[0];
 };
 

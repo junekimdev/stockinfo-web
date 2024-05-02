@@ -1,6 +1,6 @@
 import { useRecoilValue } from 'recoil';
 import { StateCurrentTab } from '../../controllers/data/states';
-import { TypeDartStatementItem } from '../../controllers/data/types';
+import { TypeDartStatementItem, TypePriceRequest } from '../../controllers/data/types';
 import { useGetPrices } from '../../controllers/net/price';
 import { shortenNumStringMillion } from '../../controllers/number';
 import styles from './details.module.scss';
@@ -20,16 +20,16 @@ const View = (props: {
   const dailyReq: TypePriceRequest = { code: company.srtnCd, type: 'daily' };
   const prices = useGetPrices(dailyReq);
   const latestPrice = prices.data?.[prices.data.length - 1];
-  const cap = latestPrice?.close * latestPrice?.base_stock_cnt;
-  const net = Number.parseInt(netIncome?.thstrm_amount);
-  const equ = Number.parseInt(equity?.thstrm_amount);
+  const cap = (latestPrice?.close ?? 0) * (latestPrice?.base_stock_cnt ?? 0);
+  const net = Number.parseInt(netIncome?.thstrm_amount ?? '0');
+  const equ = Number.parseInt(equity?.thstrm_amount ?? '0');
 
   return (
     <div className={styles.diagram}>
       <div className={styles.diagramWrapper}>
         <div className={styles.diagramMarketCap}>
           <h5>Market Cap (시가총액)</h5>
-          <span>{shortenNumStringMillion(cap)}</span>
+          <span>{shortenNumStringMillion(`${cap}`)}</span>
         </div>
         <div className={styles.diagramEquity}>
           <h5>Equity (자본)</h5>

@@ -11,7 +11,7 @@ import { useGetPrices } from '../../controllers/net/price';
 import styles from './price.module.scss';
 import draw from './priceFnDraw';
 
-const Presenter = (props: { req: TypePriceRequest; marginLeft: number; max: number }) => {
+const Presenter = (props: { req: TypePriceRequest; marginLeft: number; max?: number }) => {
   const { req, marginLeft, max = 120 } = props;
   const { data } = useGetPrices(req);
   const dataSar = useRecoilValue(StatePriceSAR(req));

@@ -2,7 +2,7 @@ import { TypeDartStatementItem } from '../../controllers/data/types';
 import { shortenNumStringMillion } from '../../controllers/number';
 import styles from './details.module.scss';
 
-const getOperatingIncomeRatio = (operatingIncome?: number, revenue?: number) => {
+const getOperatingIncomeRatio = (operatingIncome?: string, revenue?: string) => {
   if (!operatingIncome || !revenue) return;
   const n = Math.round((Number.parseInt(operatingIncome) / Number.parseInt(revenue)) * 1000) / 10;
   return n.toFixed(1);
@@ -37,8 +37,8 @@ const View = (props: {
       </h2>
       <table>
         <colgroup>
-          <col span="1" />
-          <col span="1" className={styles.currentTerm} />
+          <col span={1} />
+          <col span={1} className={styles.currentTerm} />
         </colgroup>
         <thead>
           <tr>
@@ -95,9 +95,9 @@ const View = (props: {
               <br />
               (영업이익률)
             </th>
-            <td>{isNaN(ratioCur) ? undefined : `${ratioCur} %`}</td>
-            <td>{isNaN(ratio1stPrior) ? undefined : `${ratio1stPrior} %`}</td>
-            <td>{isNaN(ratio2ndPrior) ? undefined : `${ratio2ndPrior} %`}</td>
+            <td>{ratioCur ? `${ratioCur} %` : undefined}</td>
+            <td>{ratio1stPrior ? `${ratio1stPrior} %` : undefined}</td>
+            <td>{ratio2ndPrior ? `${ratio2ndPrior} %` : undefined}</td>
           </tr>
         </tbody>
       </table>

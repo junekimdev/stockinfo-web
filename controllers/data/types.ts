@@ -2,7 +2,7 @@ export type TypeError = { code: number; message: string };
 
 export type TypePriceRequestType = 'daily' | 'weekly';
 export type TypeAvgMethod = 'simple' | 'exponential' | 'weighted';
-export type TypeAvgValue = 'close' | 'open' | 'high' | 'low' | 'avg';
+export type TypeAvgValue = 'close' | 'open' | 'high' | 'low';
 export type TypeChart = 'price' | 'heikin-aski' | 'heikin-aski-smoothed';
 export type TypeDartReportCode = '11011' | '11012' | '11013' | '11014';
 export type TypeDartIndexCode = 'M210000' | 'M220000' | 'M230000' | 'M240000';
@@ -22,13 +22,12 @@ export type TypePrice = TypeDate & {
   low: number;
 };
 
-export type TypeVolume = TypeDate & { volume: number };
+export type TypeVolume = TypePrice & { volume: number };
 
-export type TypePriceRaw = TypePrice &
-  TypeVolume & {
-    trading_value: number;
-    base_stock_cnt: number;
-  };
+export type TypePriceRaw = TypeVolume & {
+  trading_value: number;
+  base_stock_cnt: number;
+};
 
 export type TypeParabolicSAR = TypeDate & { sar: number; isUpTrend: boolean };
 

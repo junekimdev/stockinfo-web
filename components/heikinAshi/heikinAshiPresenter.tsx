@@ -11,7 +11,7 @@ import { TypePriceRequest } from '../../controllers/data/types';
 import styles from './heikinAshi.module.scss';
 import draw from './heikinAshiFnDraw';
 
-const Presenter = (props: { req: TypePriceRequest; marginLeft: number; max: number }) => {
+const Presenter = (props: { req: TypePriceRequest; marginLeft: number; max?: number }) => {
   const { req, marginLeft, max = 120 } = props;
   const dataHeikinAshi = useRecoilValue(StatePriceHeikinAshi(req));
   const dataSar = useRecoilValue(StatePriceSAR(req));

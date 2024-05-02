@@ -4,16 +4,14 @@ import { useCheckboxChange } from '../../controllers/chart';
 import {
   StateChartOverlays,
   StatePriceBollingerBands,
-  StatePriceBollingerBands,
   StatePriceHeikinAshiSmoothed,
-  StatePriceSAR,
   StatePriceSAR,
 } from '../../controllers/data/states';
 import { TypePriceRequest } from '../../controllers/data/types';
 import styles from './heikinAshi.module.scss';
 import draw from './heikinAshiFnDraw';
 
-const Presenter = (props: { req: TypePriceRequest; marginLeft: number; max: number }) => {
+const Presenter = (props: { req: TypePriceRequest; marginLeft: number; max?: number }) => {
   const { req, marginLeft, max = 120 } = props;
   const dataHeikinAshi = useRecoilValue(StatePriceHeikinAshiSmoothed(req));
   const dataSar = useRecoilValue(StatePriceSAR(req));

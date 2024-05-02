@@ -36,7 +36,7 @@ const draw = (req: TypePriceRequest, data: TypePrice[]) => {
   const x = d3.scaleBand().range([0, chartWidth]).padding(0.2);
   const y = d3.scaleLinear().range([chartHeight, 0]);
   x.domain(data.map(getDateString));
-  y.domain([d3.min(data, (d) => d.low), d3.max(data, (d) => d.high)]).nice();
+  y.domain([d3.min(data, (d) => d.low) ?? 0, d3.max(data, (d) => d.high) ?? 1]).nice();
 
   // Draw line
   chart

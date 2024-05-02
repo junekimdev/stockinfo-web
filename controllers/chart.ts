@@ -1,5 +1,5 @@
 import * as d3 from 'd3';
-import { MouseEvent, useCallback } from 'react';
+import { ChangeEvent, useCallback } from 'react';
 import { useSetRecoilState } from 'recoil';
 import { StateChartOverlays } from './data/states';
 import {
@@ -9,6 +9,9 @@ import {
   TypeIDWeek,
   TypeMovingAvg,
   TypeParabolicSAR,
+  TypePrice,
+  TypePriceBollingerBands,
+  TypeVolume,
 } from './data/types';
 
 export const getCandleColor = (d: TypePrice) => {
@@ -17,24 +20,25 @@ export const getCandleColor = (d: TypePrice) => {
 };
 
 export const getDateString = (d: TypeDate) => {
-  if (d.date?.year === undefined) {
-    const year = d.date.getFullYear();
-    const month = d.date.getMonth() + 1;
-    const day = d.date.getDate();
-    return `${year}-${month.toString().padStart(2, '0')}-${day.toString().padStart(2, '0')}`;
-  } else {
+  if (Object.hasOwn(d.date, 'year')) {
     const { year, week } = d.date as TypeIDWeek;
     return `${year}-w${(week + 1).toString().padStart(2, '0')}`;
+  } else {
+    const dd = d.date as Date;
+    const year = dd.getFullYear();
+    const month = (dd.getMonth() + 1).toString().padStart(2, '0');
+    const day = dd.getDate().toString().padStart(2, '0');
+    return `${year}-${month}-${day}`;
   }
 };
 
 export const getXCentered = (d: TypeDate, x: d3.ScaleBand<string>) =>
-  x(getDateString(d)) + x.bandwidth() / 2;
+  (x(getDateString(d)) ?? 0) + x.bandwidth() / 2;
 
 export const drawSAR = (
   chart: d3.Selection<SVGGElement, unknown, HTMLElement, any>,
   x: d3.ScaleBand<string>,
-  y: d3.ScaleLinear,
+  y: d3.ScaleLinear<number, number, never>,
   data: TypeParabolicSAR[],
 ) => {
   chart
@@ -53,7 +57,7 @@ export const drawSAR = (
 export const drawMA = (
   chart: d3.Selection<SVGGElement, unknown, HTMLElement, any>,
   x: d3.ScaleBand<string>,
-  y: d3.ScaleLinear,
+  y: d3.ScaleLinear<number, number, never>,
   data: TypeMovingAvg[],
   color: string,
 ) => {
@@ -78,8 +82,8 @@ export const drawMA = (
 export const drawBollingerBands = (
   chart: d3.Selection<SVGGElement, unknown, HTMLElement, any>,
   x: d3.ScaleBand<string>,
-  y: d3.ScaleLinear,
-  data: PriceDailyTypeBollingerBands[],
+  y: d3.ScaleLinear<number, number, never>,
+  data: TypePriceBollingerBands[],
 ) => {
   const bbGroup = chart
     .append('g')
@@ -93,7 +97,7 @@ export const drawBollingerBands = (
     .attr(
       'd',
       d3
-        .line<PriceTypeBollingerBands>()
+        .line<TypePriceBollingerBands>()
         .x((d) => getXCentered(d, x))
         .y((d) => y(d.middle)),
     );
@@ -103,7 +107,7 @@ export const drawBollingerBands = (
     .attr(
       'd',
       d3
-        .line<PriceTypeBollingerBands>()
+        .line<TypePriceBollingerBands>()
         .x((d) => getXCentered(d, x))
         .y((d) => y(d.upper)),
     );
@@ -113,13 +117,13 @@ export const drawBollingerBands = (
     .attr(
       'd',
       d3
-        .line<PriceTypeBollingerBands>()
+        .line<TypePriceBollingerBands>()
         .x((d) => getXCentered(d, x))
         .y((d) => y(d.lower)),
     );
 };
 
-export const getMarginLeft = (data: TypePrice[] | undefined) => {
+export const getMarginLeft = (data: TypeVolume[] | undefined) => {
   if (data && data.length) {
     const size = 8;
     const maxChar = data
@@ -134,7 +138,7 @@ export const useCheckboxChange = (code: string, type: TypeChart, overlay: TypeCh
   const setState = useSetRecoilState(StateChartOverlays({ code, type }));
 
   return useCallback(
-    (e: MouseEvent<HTMLInputElement>) => {
+    (e: ChangeEvent<HTMLInputElement>) => {
       setState((prev) => ({ ...prev, [overlay]: e.currentTarget.checked }));
     },
     [code, type, overlay],

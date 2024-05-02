@@ -31,17 +31,17 @@ const getPrices = async ({ queryKey }: QueryFunctionContext<string[]>) => {
     throw Error(err.message);
   }
 
-  const prices: TypePriceRaw[] | undefined = (await res.json())?.prices;
+  const prices: any[] | undefined = (await res.json())?.prices;
   if (typeof prices === 'undefined') throw Error(`failed to GET ${url}`);
   if (!prices.length) throw Error(`received an empty response for GET ${url}`);
 
-  // At this moment latest data is at [0] b/c data from backend is DSEC ordered
+  // At this moment latest data is at [0] b/c data from backend is in descending order
   const base = parseInt(prices[0].base_stock_cnt);
 
   // parse numeric string to number
   const data: TypePriceRaw[] = prices
-    .filter((v) => v.open)
-    .reverse() // Ordering in ASC
+    .filter((v) => v.open) // This filters out no trading days (e.g. no trading for stock split)
+    .reverse() // This makes ascending order
     .map((v) => {
       const base_stock_cnt = parseInt(v.base_stock_cnt);
       const scaler = base_stock_cnt / base;

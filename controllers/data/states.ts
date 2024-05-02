@@ -7,6 +7,7 @@ import {
   TypeMovingAvg,
   TypeParabolicSAR,
   TypePrice,
+  TypePriceBollingerBands,
   TypePriceRequest,
 } from './types';
 
@@ -30,7 +31,7 @@ export const StatePriceSAR = atomFamily<TypeParabolicSAR[], TypePriceRequest>({
   default: [],
 });
 
-export const StatePriceBollingerBands = atomFamily<PriceTypeBollingerBands[], TypePriceRequest>({
+export const StatePriceBollingerBands = atomFamily<TypePriceBollingerBands[], TypePriceRequest>({
   key: 'StatePriceBollingerBands',
   default: [],
 });

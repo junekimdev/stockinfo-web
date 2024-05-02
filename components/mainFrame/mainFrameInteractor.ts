@@ -1,7 +1,7 @@
 import { MouseEvent, useCallback } from 'react';
 import { useRecoilState, useRecoilValue, useResetRecoilState, useSetRecoilState } from 'recoil';
 import { StateCompanyTabs, StateCurrentTab } from '../../controllers/data/states';
-import { TypeCompanyTab } from '../../controllers/data/types';
+import { TypeCompanyTab, TypePriceRequestType } from '../../controllers/data/types';
 import { MainFrameStateMenuOpened } from './mainFrameStates';
 
 export const useToggleMenu = () => {
@@ -58,7 +58,7 @@ export const useSwitchTypeBtnClick = () => {
     (e: MouseEvent<HTMLButtonElement>) => {
       e.stopPropagation();
 
-      const mainType = currentTab.mainType === 'daily' ? 'weekly' : 'daily';
+      const mainType: TypePriceRequestType = currentTab.mainType === 'daily' ? 'weekly' : 'daily';
       const updatedTab = { ...currentTab, mainType };
 
       setCurrentTab(updatedTab);
