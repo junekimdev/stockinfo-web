@@ -24,13 +24,14 @@ export const useCompanyClick = (uuid: string, company: TypeCompany) => {
   const resetSearchInput = useResetRecoilState(StateSearchInput);
 
   return useCallback(() => {
-    const tab: TypeCompanyTab = companyTabs.reduce(
+    const tabExists: TypeCompanyTab = companyTabs.reduce(
       (p, v) => (v.company.srtnCd === company.srtnCd ? v : p),
-      { uuid, company, mainType: 'daily' },
+      { uuid: '', company, mainType: 'daily' },
     );
 
     // Add to tabs and set it as current
-    if (!tab) setCompanyTabs((v) => [tab, ...v]);
+    const tab: TypeCompanyTab = tabExists.uuid ? tabExists : { uuid, company, mainType: 'daily' };
+    if (!tabExists.uuid) setCompanyTabs((v) => [tab, ...v]);
     setCurrentTab(tab);
     resetSearchInput();
 
