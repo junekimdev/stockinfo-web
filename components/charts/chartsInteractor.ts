@@ -18,9 +18,10 @@ import styles from './charts.module.scss';
 
 export const useRulerOnClick = () => {
   return useCallback((e: MouseEvent<HTMLElement>) => {
+    const parent = e.currentTarget.parentElement;
     const ruler = document.querySelector<HTMLElement>(`.${styles.ruler}`);
-    if (ruler) {
-      const x = Math.round(e.clientX - e.currentTarget.offsetLeft + e.currentTarget.scrollLeft);
+    if (ruler && parent) {
+      const x = Math.round(e.clientX - parent.offsetLeft + e.currentTarget.scrollLeft);
       ruler.style.left = `${x}px`;
       ruler.style.height = `${e.currentTarget.scrollHeight}px`;
     }

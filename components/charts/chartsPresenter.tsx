@@ -1,10 +1,9 @@
+import { useRecoilValue } from 'recoil';
 import { getMarginLeft } from '../../controllers/chart';
 import { StateCurrentTab } from '../../controllers/data/states';
 import { TypePriceRequest } from '../../controllers/data/types';
 import { useGetPrices } from '../../controllers/net/price';
 import HeikinAshi from '../heikinAshi';
-// import HeikinAshiSmoothed from '../heikinAshiSmoothed';
-import { useRecoilValue } from 'recoil';
 import Price from '../price';
 import Volume from '../volume';
 import styles from './charts.module.scss';
@@ -34,7 +33,6 @@ const Presenter = () => {
         <>
           <Price req={req} marginLeft={marginLeft} />
           <HeikinAshi req={req} marginLeft={marginLeft} />
-          {/* <HeikinAshiSmoothed req={dailyReq} marginLeft={marginLeft} /> */}
           <Volume req={req} marginLeft={marginLeft} />
           <div className={styles.ruler}></div>
         </>
