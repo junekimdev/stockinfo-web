@@ -1,5 +1,5 @@
 import { QueryFunctionContext, useQuery } from '@tanstack/react-query';
-import { DART_INDEX_URL, DART_STATEMENT_URL, DART_URL } from '../apiURLs';
+import { DART_CODE_URL, DART_INDEX_URL, DART_STATEMENT_URL } from '../apiURLs';
 import {
   TypeDartIndexCode,
   TypeDartReportCode,
@@ -50,7 +50,7 @@ export const useGetDartStatement = (
 const getDartCode = async ({ queryKey }: QueryFunctionContext<string[]>) => {
   const [_key1, _key2, name] = queryKey;
 
-  const url = `${DART_URL}/${encodeURIComponent(name)}`;
+  const url = `${DART_CODE_URL}/${encodeURIComponent(name)}`;
   const res = await fetch(url, { method: 'GET' });
 
   if (res.status >= 400) {

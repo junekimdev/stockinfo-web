@@ -3,7 +3,8 @@ export const placeholderUrl = 'https://jsonplaceholder.typicode.com/posts';
 const API_URL = process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:4000';
 export const COMPANIES_URL = API_URL + '/v1/companies';
 export const PRICES_URL = API_URL + '/v1/prices';
-export const DART_URL = API_URL + '/v1/dart';
+const DART_URL = API_URL + '/v1/dart';
+export const DART_CODE_URL = DART_URL + '/code';
 export const DART_INDEX_URL = DART_URL + '/index';
 export const DART_STATEMENT_URL = DART_URL + '/statement';
 
