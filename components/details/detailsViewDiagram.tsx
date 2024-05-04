@@ -49,7 +49,7 @@ const View = (props: {
         </div>
         <div className={styles.diagramROE}>
           <h5>ROE</h5>
-          <span>{`${getRatioString(net / equ)} %`}</span>
+          <span>{`${getRatioString((net / equ) * 100)} %`}</span>
         </div>
       </div>
       {consolidated && (
