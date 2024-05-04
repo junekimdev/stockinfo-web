@@ -29,11 +29,9 @@ const View = (props: {
   return (
     <div className={styles.tableContainer}>
       <h2>
-        {consolidated
-          ? 'Consolidated Statement of Comprehensive Income'
-          : 'Statement of Comprehensive Income'}
+        {consolidated ? 'Consolidated Statement of Income' : 'Statement of Income'}
         <br />
-        {consolidated ? '(연결 포괄손익계산서)' : '(포괄손익계산서)'}
+        {consolidated ? '(연결 손익계산서)' : '(손익계산서)'}
       </h2>
       <table>
         <colgroup>

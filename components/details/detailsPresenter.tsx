@@ -22,25 +22,31 @@ const Presenter = () => {
   const cfs_assets = getData(cfs_data, 'BS', 'ifrs-full_Assets');
   const cfs_equityCI = getData(cfs_data, 'BS', 'ifrs-full_EquityAttributableToOwnersOfParent');
   const cfs_liabilities = getData(cfs_data, 'BS', 'ifrs-full_Liabilities');
-  const cfs_revenue = getData(cfs_data, 'CIS', 'ifrs-full_Revenue');
-  const cfs_operatingIncome = getData(cfs_data, 'CIS', 'dart_OperatingIncomeLoss');
-  const cfs_netIncomeCI = getData(
-    cfs_data,
-    'CIS',
-    'ifrs-full_ProfitLossAttributableToOwnersOfParent',
-  );
-  const cfs_comprehensiveIncomeCI = getData(
-    cfs_data,
-    'CIS',
-    'ifrs-full_ComprehensiveIncomeAttributableToOwnersOfParent',
-  );
+  const cfs_revenue =
+    getData(cfs_data, 'CIS', 'ifrs-full_Revenue') ?? getData(cfs_data, 'IS', 'ifrs-full_Revenue');
+  const cfs_operatingIncome =
+    getData(cfs_data, 'CIS', 'dart_OperatingIncomeLoss') ??
+    getData(cfs_data, 'IS', 'dart_OperatingIncomeLoss');
+  const cfs_netIncomeCI =
+    getData(cfs_data, 'CIS', 'ifrs-full_ProfitLossAttributableToOwnersOfParent') ??
+    getData(cfs_data, 'IS', 'ifrs-full_ProfitLossAttributableToOwnersOfParent');
+  const cfs_comprehensiveIncomeCI =
+    getData(cfs_data, 'CIS', 'ifrs-full_ComprehensiveIncomeAttributableToOwnersOfParent') ??
+    getData(cfs_data, 'IS', 'ifrs-full_ComprehensiveIncomeAttributableToOwnersOfParent');
   const fs_assets = getData(fs_data, 'BS', 'ifrs-full_Assets');
   const fs_equity = getData(fs_data, 'BS', 'ifrs-full_Equity');
   const fs_liabilities = getData(fs_data, 'BS', 'ifrs-full_Liabilities');
-  const fs_revenue = getData(fs_data, 'CIS', 'ifrs-full_Revenue');
-  const fs_operatingIncome = getData(fs_data, 'CIS', 'dart_OperatingIncomeLoss');
-  const fs_netIncome = getData(fs_data, 'CIS', 'ifrs-full_ProfitLoss');
-  const fs_comprehensiveIncome = getData(fs_data, 'CIS', 'ifrs-full_ComprehensiveIncome');
+  const fs_revenue =
+    getData(fs_data, 'CIS', 'ifrs-full_Revenue') ?? getData(fs_data, 'IS', 'ifrs-full_Revenue');
+  const fs_operatingIncome =
+    getData(fs_data, 'CIS', 'dart_OperatingIncomeLoss') ??
+    getData(fs_data, 'IS', 'dart_OperatingIncomeLoss');
+  const fs_netIncome =
+    getData(fs_data, 'CIS', 'ifrs-full_ProfitLoss') ??
+    getData(fs_data, 'IS', 'ifrs-full_ProfitLoss');
+  const fs_comprehensiveIncome =
+    getData(fs_data, 'CIS', 'ifrs-full_ComprehensiveIncome') ??
+    getData(fs_data, 'IS', 'ifrs-full_ComprehensiveIncome');
 
   const onToggleDetails = useToggleDetails();
   return (
