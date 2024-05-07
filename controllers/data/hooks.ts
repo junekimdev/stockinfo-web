@@ -13,13 +13,13 @@ export const useLoadCompanyTabs = () => {
     const tabsString = window.localStorage.getItem(LOCAL_STORAGE_KEY_COMPANY_TABS);
     if (tabsString) {
       try {
-        const tabs: TypeCompanyTab[] = JSON.parse(tabsString);
-        setTabs(tabs);
+        const savedTabs: TypeCompanyTab[] = JSON.parse(tabsString);
+        setTabs(savedTabs);
       } catch (error) {
         console.error(error);
       }
     }
-  }, []);
+  }, [tabs]);
 };
 
 export const useSaveTabsClick = () => {
