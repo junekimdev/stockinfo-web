@@ -53,7 +53,7 @@ const Presenter = (props: { req: TypePriceRequest; marginLeft: number; max?: num
       </div>
       <svg id={chartID} className={styles.chart}></svg>
       <div className={styles.overlaySelectorWrapper} onClick={(e) => e.stopPropagation()}>
-        <div className={styles.overlaySelector}>
+        <div className={styles.overlaySelector} title="Parabolic SAR (0.2,0.01)">
           <input
             type="checkbox"
             name={sarInputID}
@@ -63,7 +63,7 @@ const Presenter = (props: { req: TypePriceRequest; marginLeft: number; max?: num
           />
           <label htmlFor={sarInputID}>Parabolic SAR</label>
         </div>
-        <div className={styles.overlaySelector}>
+        <div className={styles.overlaySelector} title="Bollinger Bands (20,2)">
           <input
             type="checkbox"
             name={bollingerInputID}
