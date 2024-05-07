@@ -101,6 +101,7 @@
   font-size: 0.75rem;
   border-radius: 4px;
   transition: background 0.2s linear;
+  cursor: pointer;
 
   &:hover {
     background: rgba(0, 0, 0, 0.1);
@@ -110,6 +111,7 @@
 .tabItemCurrent {
   @extend .tabItem;
   background: rgba(255, 255, 255, 0.1);
+  cursor: auto;
 
   &:hover {
     background: rgba(255, 255, 255, 0.1);
@@ -138,7 +140,6 @@
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
-  cursor: pointer;
 }
 
 .menuToggleBtn {
