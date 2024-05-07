@@ -11,6 +11,8 @@ import {
   TypePriceRequest,
 } from './types';
 
+export const StateTabsInitiated = atom<boolean>({ key: 'StateTabsInitiated', default: false });
+
 export const StateChartOverlays = atomFamily<TypeChartDisplay, TypeChartRequest>({
   key: 'StateChartOverlays',
   default: { ParabolicSAR: true, BollingerBands: true },

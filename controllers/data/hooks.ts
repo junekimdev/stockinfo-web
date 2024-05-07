@@ -1,14 +1,16 @@
 import { useCallback, useEffect } from 'react';
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import { LOCAL_STORAGE_KEY_COMPANY_TABS } from '../apiURLs';
-import { StateCompanyTabs, StateDetailsOpened } from './states';
+import { StateCompanyTabs, StateDetailsOpened, StateTabsInitiated } from './states';
 import { TypeCompanyTab } from './types';
 
 export const useLoadCompanyTabs = () => {
-  const [tabs, setTabs] = useRecoilState(StateCompanyTabs);
+  const [initiated, setInit] = useRecoilState(StateTabsInitiated);
+  const setTabs = useSetRecoilState(StateCompanyTabs);
 
   useEffect(() => {
-    if (tabs.length) return;
+    if (initiated) return;
+    setInit(true);
 
     const tabsString = window.localStorage.getItem(LOCAL_STORAGE_KEY_COMPANY_TABS);
     if (tabsString) {
@@ -19,7 +21,7 @@ export const useLoadCompanyTabs = () => {
         console.error(error);
       }
     }
-  }, [tabs]);
+  }, [initiated]);
 };
 
 export const useSaveTabsClick = () => {
