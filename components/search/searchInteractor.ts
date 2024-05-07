@@ -1,3 +1,4 @@
+import { useRouter } from 'next/router';
 import { ChangeEvent, useCallback, useEffect } from 'react';
 import { useRecoilState, useResetRecoilState, useSetRecoilState } from 'recoil';
 import { LOCAL_STORAGE_KEY_RECENT_SEARCH_TABS } from '../../controllers/apiURLs';
@@ -22,6 +23,7 @@ export const useCompanyClick = (uuid: string, company: TypeCompany) => {
   const [recentSearchTabs, setRecentSearchTabs] = useRecoilState(StateRecentSearchTabs);
   const setCurrentTab = useSetRecoilState(StateCurrentTab);
   const resetSearchInput = useResetRecoilState(StateSearchInput);
+  const router = useRouter();
 
   return useCallback(() => {
     const tabExists: TypeCompanyTab = companyTabs.reduce(
@@ -45,6 +47,8 @@ export const useCompanyClick = (uuid: string, company: TypeCompany) => {
       setRecentSearchTabs(recent);
       window.localStorage.setItem(LOCAL_STORAGE_KEY_RECENT_SEARCH_TABS, JSON.stringify(recent));
     }
+
+    router.replace('/chart', '/');
   }, [uuid, company, companyTabs, recentSearchTabs]);
 };
 

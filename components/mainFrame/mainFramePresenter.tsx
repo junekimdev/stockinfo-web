@@ -1,20 +1,14 @@
 import Image from 'next/image';
-import { useRecoilValue } from 'recoil';
+import { ReactNode } from 'react';
 import { useLoadCompanyTabs } from '../../controllers/data/hooks';
-import { StateCurrentTab, StateDetailsOpened } from '../../controllers/data/states';
 import logoSrc from '../../public/assets/images/junekim_192x192.png';
-import Chart from '../charts';
-import Details from '../details';
-import Search from '../search';
 import styles from './mainFrame.module.scss';
-import Header from './mainFrameViewHeader';
 import Menu from './mainFrameViewMenu';
 import Navbar from './mainFrameViewNavbar';
 
-const Presenter = () => {
+const Presenter = (props: { children?: ReactNode[] | ReactNode }) => {
+  const { children } = props;
   useLoadCompanyTabs();
-  const currentTab = useRecoilValue(StateCurrentTab);
-  const detailsOpened = useRecoilValue(StateDetailsOpened);
   const year = new Date().getFullYear();
 
   return (
@@ -22,15 +16,7 @@ const Presenter = () => {
       <Navbar />
       <Menu />
       <div className={styles.mainFrame}>
-        {currentTab.uuid ? (
-          <>
-            <Header />
-            <Chart />
-            {detailsOpened && <Details />}
-          </>
-        ) : (
-          <Search />
-        )}
+        {children}
         <footer className={styles.footer}>
           <div>Copyright &copy; {year === 2024 ? year : `2024-${year}`}</div>
           <div className={styles.author}>
