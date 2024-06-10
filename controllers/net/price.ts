@@ -3,6 +3,7 @@ import { PRICES_URL } from '../apiURLs';
 import {
   TypeError,
   TypeIDWeek,
+  TypePrice,
   TypePriceRaw,
   TypePriceRequest,
   TypePriceRequestType,
@@ -15,6 +16,17 @@ export const useGetPrices = (req: TypePriceRequest) => {
     queryFn: getPrices,
     enabled: !!code && !!type,
     staleTime: Infinity,
+    placeholderData: [],
+  });
+};
+
+export const useGetPricesLatest = (req: TypePriceRequest) => {
+  const { code, type } = req;
+  return useQuery({
+    queryKey: ['prices', code, type],
+    queryFn: getPricesLatest,
+    enabled: !!code && !!type,
+    staleTime: 60000, // 1 minute
     placeholderData: [],
   });
 };
@@ -59,4 +71,41 @@ const getPrices = async ({ queryKey }: QueryFunctionContext<string[]>) => {
     });
 
   return data;
+};
+
+const getPricesLatest = async ({ queryKey }: QueryFunctionContext<string[]>) => {
+  const [_key, code, _t] = queryKey;
+  const t = _t as TypePriceRequestType;
+
+  const url = `${PRICES_URL}/${code}/${t}`;
+  const res = await fetch(url, { method: 'GET' });
+
+  if (res.status >= 400) {
+    const err: TypeError = await res.json();
+    throw Error(err.message);
+  }
+
+  const data: any = await res.json();
+  if (typeof data !== 'object') throw Error(`failed to GET ${url}`);
+
+  const dateRaw: string = data.current_datetime;
+  if (typeof dateRaw !== 'string') throw Error(`failed to parce data from ${url}`);
+
+  const pricesRaw: any[] = data.prices;
+  if (typeof pricesRaw !== 'object' || pricesRaw.length === 0)
+    throw Error(`failed to parce data from ${url}`);
+
+  const date = new Date(dateRaw);
+  const prices: TypePrice[] = [];
+  for (let i = 0; i < pricesRaw.length; i++) {
+    const { tdd_opnprc, tdd_hgprc, tdd_lwprc, tdd_clsprc } = pricesRaw[i];
+    const open = parseInt(tdd_opnprc.replace(',', ''));
+    const high = parseInt(tdd_hgprc.replace(',', ''));
+    const low = parseInt(tdd_lwprc.replace(',', ''));
+    const close = parseInt(tdd_clsprc.replace(',', ''));
+    const p: TypePrice = { date, open, high, low, close };
+    prices.push(p);
+  }
+
+  return prices;
 };
