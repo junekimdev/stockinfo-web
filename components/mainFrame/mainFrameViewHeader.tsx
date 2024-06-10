@@ -1,19 +1,16 @@
 import { useRecoilValue } from 'recoil';
-import { getDateString } from '../../controllers/chart';
 import { useToggleDetails } from '../../controllers/data/hooks';
 import { StateCurrentTab } from '../../controllers/data/states';
 import { TypePriceRequest } from '../../controllers/data/types';
-import { useGetPrices } from '../../controllers/net/price';
 import MiniPrice from '../miniPrice';
 import styles from './mainFrame.module.scss';
 import { useSwitchTypeBtnClick } from './mainFrameInteractor';
+import LatestPrice from './mainFrameViewLatestPrice';
 
 const View = () => {
   const { company, mainType } = useRecoilValue(StateCurrentTab);
   const dailyReq: TypePriceRequest = { code: company.srtnCd, type: 'daily' };
   const weeklyReq: TypePriceRequest = { code: company.srtnCd, type: 'weekly' };
-  const prices = useGetPrices(dailyReq);
-  const latestData = prices.data?.[prices.data.length - 1];
 
   const onSwitchTypeBtnClick = useSwitchTypeBtnClick();
   const onToggleDetails = useToggleDetails();
@@ -25,11 +22,7 @@ const View = () => {
         <h3>{company.srtnCd}</h3>
         <h3>{company.mrktCtg}</h3>
         <h3>{mainType}</h3>
-        <h5>
-          {latestData && getDateString(latestData)}
-          <br />
-          closed at {latestData?.close.toLocaleString()} KRW
-        </h5>
+        <LatestPrice code={company.srtnCd} />
       </div>
       <div className={styles.miniChartsWrapper}>
         <div className={styles.miniChart}>

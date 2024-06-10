@@ -256,6 +256,18 @@
   }
 }
 
+.latestPriceWrapper {
+  display: flex;
+  align-items: flex-end;
+  margin-bottom: 4px;
+}
+
+.latestPrice {
+  margin: 0 0.5rem;
+  font-size: 1rem;
+  color: yellow;
+}
+
 .miniChartsWrapper {
   display: flex;
   align-items: center;
@@ -305,4 +317,8 @@
   display: flex;
   align-items: center;
   gap: 0.5rem;
+}
+
+.spinner {
+  @include theme.getSpinner(24px, 2px, var(--spinner-color));
 }

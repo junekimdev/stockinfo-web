@@ -1,6 +1,6 @@
 export type TypeError = { code: number; message: string };
 
-export type TypePriceRequestType = 'daily' | 'weekly';
+export type TypePriceRequestType = 'daily' | 'weekly' | 'latest';
 export type TypeAvgMethod = 'simple' | 'exponential' | 'weighted';
 export type TypeAvgValue = 'close' | 'open' | 'high' | 'low';
 export type TypeChart = 'price' | 'heikin-aski' | 'heikin-aski-smoothed';
