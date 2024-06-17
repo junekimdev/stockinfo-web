@@ -1,4 +1,5 @@
 import { useRecoilValue } from 'recoil';
+import { DIFF_NATION_URL } from '../../controllers/apiURLs';
 import { StateCompanyTabs } from '../../controllers/data/states';
 import styles from './mainFrame.module.scss';
 import { useAddNewTabClick, useToggleMenu } from './mainFrameInteractor';
@@ -15,7 +16,14 @@ const View = () => {
   return (
     <nav className={styles.navbarVertical}>
       <div className={styles.brandWrapper}>
-        <h1>JK Stock</h1>
+        <h1>
+          JK Stock
+          <br />
+          KR
+        </h1>
+      </div>
+      <div className={styles.changeNation}>
+        <a href={DIFF_NATION_URL}>Go to US Stock</a>
       </div>
       <ul className={styles.tabList}>
         <li className={styles.addNewTab} onClick={onAddNewTabClick}>
