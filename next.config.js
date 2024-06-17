@@ -6,6 +6,7 @@ module.exports = {
     //NEXT_PUBLIC_CMS_URL: process.env.NEXT_PUBLIC_CMS_URL,
     NEXT_PUBLIC_GTM_ID: process.env.NEXT_PUBLIC_GTM_ID,
     NEXT_PUBLIC_API_URL: process.env.NEXT_PUBLIC_API_URL,
+    NEXT_PUBLIC_DIFF_NATION_URL: process.env.NEXT_PUBLIC_DIFF_NATION_URL,
   },
   eslint: { ignoreDuringBuilds: true },
   poweredByHeader: false,

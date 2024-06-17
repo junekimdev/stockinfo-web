@@ -61,6 +61,39 @@
 
   h1 {
     font-size: 1.2rem;
+    text-align: center;
+  }
+}
+
+.changeNation {
+  width: 100%;
+  min-height: 3rem;
+  padding: 4px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  a {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: 800;
+    border-radius: 4px;
+    cursor: pointer;
+
+    &:link,
+    &:visited,
+    &:active {
+      color: var(--black);
+      background: skyblue;
+    }
+
+    &:hover {
+      color: var(--font-color);
+      background: rgba(0, 0, 0, 0.1);
+    }
   }
 }
 
