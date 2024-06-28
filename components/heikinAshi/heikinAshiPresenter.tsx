@@ -38,12 +38,12 @@ const Presenter = (props: { req: TypePriceRequest; marginLeft: number; max?: num
         dataHeikinAshi.slice(-max),
         dataSar.slice(-max),
         dataBands.slice(-max),
-        data[0],
         overlays,
         marginLeft,
+        data?.[0],
       );
     }
-  }, [req, marginLeft, max, dataHeikinAshi, dataSar, dataBands, data, overlays]);
+  }, [req, marginLeft, max, dataHeikinAshi, dataSar, dataBands, overlays, data]);
 
   return (
     <div className={styles.chartContainer}>

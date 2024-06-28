@@ -26,9 +26,9 @@ const draw = (
   candleData: TypePrice[],
   sarData: TypeParabolicSAR[],
   bandData: TypePriceBollingerBands[],
-  latestPriceData?: TypePrice,
   overlays: TypeChartDisplay,
   marginLeft: number,
+  latestPriceData?: TypePrice,
 ) => {
   if (!candleData.length) return;
 
@@ -88,7 +88,7 @@ const draw = (
     .attr('fill', getCandleColor);
 
   if (overlays.LatestPrice && latestPriceData)
-    drawLatestPrice(chart, x, y, candleData.at(0), candleData.at(-1), latestPriceData);
+    drawLatestPrice(chart, x, y, candleData[0], candleData[candleData.length - 1], latestPriceData);
 
   // Draw Parabolic SAR
   if (overlays.ParabolicSAR && sarData.length) drawSAR(chart, x, y, sarData);

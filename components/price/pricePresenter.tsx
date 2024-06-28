@@ -37,12 +37,12 @@ const Presenter = (props: { req: TypePriceRequest; marginLeft: number; max?: num
         data.slice(-max),
         dataSar.slice(-max),
         dataBands.slice(-max),
-        latestPriceData[0],
         overlays,
         marginLeft,
+        latestPriceData?.[0],
       );
     }
-  }, [req, marginLeft, max, data, dataSar, dataBands, latestPriceData, overlays]);
+  }, [req, marginLeft, max, data, dataSar, dataBands, overlays, latestPriceData]);
 
   return (
     <div className={styles.chartContainer}>
