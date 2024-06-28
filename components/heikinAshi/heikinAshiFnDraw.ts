@@ -1,6 +1,7 @@
 import * as d3 from 'd3';
 import {
   drawBollingerBands,
+  drawLatestPrice,
   drawSAR,
   getCandleColor,
   getDateString,
@@ -25,6 +26,7 @@ const draw = (
   candleData: TypePrice[],
   sarData: TypeParabolicSAR[],
   bandData: TypePriceBollingerBands[],
+  latestPriceData?: TypePrice,
   overlays: TypeChartDisplay,
   marginLeft: number,
 ) => {
@@ -85,11 +87,14 @@ const draw = (
     .attr('width', x.bandwidth())
     .attr('fill', getCandleColor);
 
+  if (overlays.LatestPrice && latestPriceData)
+    drawLatestPrice(chart, x, y, candleData.at(0), candleData.at(-1), latestPriceData);
+
   // Draw Parabolic SAR
-  if (overlays.ParabolicSAR) drawSAR(chart, x, y, sarData);
+  if (overlays.ParabolicSAR && sarData.length) drawSAR(chart, x, y, sarData);
 
   // Draw Bollinger Bands
-  if (overlays.BollingerBands) drawBollingerBands(chart, x, y, bandData);
+  if (overlays.BollingerBands && bandData.length) drawBollingerBands(chart, x, y, bandData);
 
   // Draw the X Axis
   // svg
