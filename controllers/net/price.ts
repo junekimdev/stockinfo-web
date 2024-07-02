@@ -99,10 +99,10 @@ const getPricesLatest = async ({ queryKey }: QueryFunctionContext<string[]>) => 
   const prices: TypePrice[] = [];
   for (let i = 0; i < pricesRaw.length; i++) {
     const { tdd_opnprc, tdd_hgprc, tdd_lwprc, tdd_clsprc } = pricesRaw[i];
-    const open = parseInt(tdd_opnprc.replace(',', ''));
-    const high = parseInt(tdd_hgprc.replace(',', ''));
-    const low = parseInt(tdd_lwprc.replace(',', ''));
-    const close = parseInt(tdd_clsprc.replace(',', ''));
+    const open = parseInt(tdd_opnprc?.replaceAll?.(',', ''));
+    const high = parseInt(tdd_hgprc?.replaceAll?.(',', ''));
+    const low = parseInt(tdd_lwprc?.replaceAll?.(',', ''));
+    const close = parseInt(tdd_clsprc?.replaceAll?.(',', ''));
     const p: TypePrice = { date, open, high, low, close };
     prices.push(p);
   }
