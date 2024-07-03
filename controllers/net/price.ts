@@ -40,7 +40,7 @@ export const useGetPricesSnapshot = () => {
     queryKey: ['prices', 'snapshot'],
     queryFn: getPricesSnapshot,
     staleTime: 60000, // 1 minute
-    placeholderData: { current_datetime: new Date(), prices: [] },
+    placeholderData: { current_datetime: new Date(), treemap: { name: 'KRX', children: [] } },
   });
 };
 
@@ -108,10 +108,10 @@ const getPricesLatest = async ({ queryKey }: QueryFunctionContext<string[]>) => 
 
   const r: TypeKRX = { current_datetime: new Date(data.current_datetime), prices: [] };
   for (let i = 0; i < prices.length; i++) {
-    const { tdd_clsprc, fluc_rt, mktcap } = prices[i];
-    const close = parseInt(tdd_clsprc?.replaceAll?.(',', ''));
-    const change_percentage = parseFloat(fluc_rt?.replaceAll?.(',', ''));
-    const marketcap = parseInt(mktcap?.replaceAll?.(',', ''));
+    const { tdd_clsprc = '0', fluc_rt = '0', mktcap = '0' } = prices[i];
+    const close = parseInt(tdd_clsprc.replaceAll(',', ''));
+    const change_percentage = parseFloat(fluc_rt.replaceAll(',', ''));
+    const marketcap = parseInt(mktcap.replaceAll(',', ''));
     r.prices.push({ close, change_percentage, marketcap } as TypeKRXPrice);
   }
 
@@ -140,17 +140,17 @@ const getPricesSnapshot = async () => {
     treemap: { name: 'KRX', children: [] },
   };
   for (let i = 0; i < prices.length; i++) {
-    const { tdd_clsprc, fluc_rt, mktcap, isu_abbrv } = prices[i];
-    const close = parseInt(tdd_clsprc?.replaceAll?.(',', ''));
-    const change_percentage = parseFloat(fluc_rt?.replaceAll?.(',', ''));
-    const marketcap = parseInt(mktcap?.replaceAll?.(',', ''));
+    const { tdd_clsprc = '0', fluc_rt = '0', mktcap = '0', isu_abbrv = '' } = prices[i];
+    const close = parseInt(tdd_clsprc.replaceAll(',', ''));
+    const change_percentage = parseFloat(fluc_rt.replaceAll(',', ''));
+    const marketcap = parseInt(mktcap.replaceAll(',', ''));
     const p: TypeTreemapPrice = {
       name: isu_abbrv,
       value: marketcap,
       close,
       change_percentage,
     };
-    r.treemap.children.push(p);
+    r.treemap.children?.push(p);
   }
 
   return r;

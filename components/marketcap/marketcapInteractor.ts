@@ -7,13 +7,17 @@ export const useDraw = (svgID: string, max = 100) => {
   const { data } = useGetPricesSnapshot();
 
   useEffect(() => {
-    if (!data.treemap) return;
+    if (!data?.treemap) return;
 
     // FHD resolution: 1920x1080
     const width = 1920;
     const height = 1080;
 
-    const color = d3.scaleLinear().domain([-5, 0, 5]).range(['#00F', '#000', '#F00']).clamp(true);
+    const color = d3
+      .scaleLinear<string>()
+      .domain([-5, 0, 5])
+      .range(['#00F', '#000', '#F00'])
+      .clamp(true);
     const format = d3.format(',d');
 
     const svg = d3
@@ -26,8 +30,8 @@ export const useDraw = (svgID: string, max = 100) => {
 
     const hierarcy = d3
       .hierarchy(data.treemap)
-      .sum((d) => d.value)
-      .sort((a, b) => b.value - a.value);
+      .sum((d) => d.value ?? 0)
+      .sort((a, b) => (b.value ?? 0) - (a.value ?? 0));
 
     const root = d3
       .treemap<TypeTreemapPrice>()
@@ -48,12 +52,14 @@ export const useDraw = (svgID: string, max = 100) => {
           .ancestors()
           .reverse()
           .map((d) => d.data.name)
-          .join('.')}\nMktCap#${i + 1}\n${format(d.data.close)}\n${`${d.data.change_percentage}%`}`,
+          .join(
+            '.',
+          )}\nMktCap#${i + 1}\n${format(d.data.close ?? 0)}\n${`${d.data.change_percentage}%`}`,
     );
 
     leaf
       .append('rect')
-      .attr('fill', (d) => color(d.data.change_percentage))
+      .attr('fill', (d) => color(d.data.change_percentage ?? 0))
       .attr('width', (d) => d.x1 - d.x0)
       .attr('height', (d) => d.y1 - d.y0);
 
@@ -63,14 +69,14 @@ export const useDraw = (svgID: string, max = 100) => {
       .selectAll('tspan')
       .data((d, i) =>
         // Show top (max) only
-        i < max ? [d.data.name, format(d.data.close), `${d.data.change_percentage}%`] : '',
+        i < max ? [d.data.name, format(d.data.close ?? 0), `${d.data.change_percentage}%`] : '',
       )
       .join('tspan')
       .attr('x', 3)
-      .attr('y', (d, i) => `${i + 1.2}em`)
-      .attr('fill-opacity', (d, i) => (i ? 0.5 : null))
+      .attr('y', (_d, i) => `${i + 1.2}em`)
+      .attr('fill-opacity', (_d, i) => (i ? 0.5 : null))
       .text((d) => d);
-  }, [svgID, data.treemap]);
+  }, [svgID, data?.treemap]);
 };
 
 export const useDownloadClick = (svgID: string, filename: string) => {
@@ -108,6 +114,7 @@ export const useDownloadClick = (svgID: string, filename: string) => {
       canvas.height = height;
 
       const cxt = canvas.getContext('2d');
+      if (!cxt) throw Error('failed to get context from canvas');
       cxt.drawImage(img, 0, 0, width, height);
 
       URL.revokeObjectURL(url);
