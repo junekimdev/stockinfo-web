@@ -9,6 +9,8 @@ import {
   TypePriceRaw,
   TypePriceRequest,
   TypePriceRequestType,
+  TypeTreemapData,
+  TypeTreemapPrice,
 } from '../data/types';
 
 export const useGetPrices = (req: TypePriceRequest) => {
@@ -28,6 +30,15 @@ export const useGetPricesLatest = (req: TypePriceRequest) => {
     queryKey: ['prices', code, type],
     queryFn: getPricesLatest,
     enabled: !!code && !!type,
+    staleTime: 60000, // 1 minute
+    placeholderData: { current_datetime: new Date(), prices: [] },
+  });
+};
+
+export const useGetPricesSnapshot = () => {
+  return useQuery({
+    queryKey: ['prices', 'snapshot'],
+    queryFn: getPricesSnapshot,
     staleTime: 60000, // 1 minute
     placeholderData: { current_datetime: new Date(), prices: [] },
   });
@@ -107,4 +118,40 @@ const getPricesLatest = async ({ queryKey }: QueryFunctionContext<string[]>) => 
   return r;
 };
 
-// const getPricesSnapshot = async ({ queryKey }: QueryFunctionContext<string[]>) => {};
+const getPricesSnapshot = async () => {
+  const url = `${PRICES_URL}/snapshot`;
+  const res = await fetch(url, { method: 'GET' });
+
+  if (res.status >= 400) {
+    const err: TypeError = await res.json();
+    throw Error(err.message);
+  }
+
+  const data: TypeKRXRaw = await res.json();
+  const prices = data?.prices ?? [];
+
+  // Validate data
+  if (typeof data !== 'object') throw Error(`failed to GET ${url}`);
+  if (typeof data?.current_datetime !== 'string') throw Error(`failed to parce data from ${url}`);
+  if (prices.length === 0) throw Error(`failed to parce data from ${url}`);
+
+  const r: TypeTreemapData = {
+    current_datetime: new Date(data.current_datetime),
+    treemap: { name: 'KRX', children: [] },
+  };
+  for (let i = 0; i < prices.length; i++) {
+    const { tdd_clsprc, fluc_rt, mktcap, isu_abbrv } = prices[i];
+    const close = parseInt(tdd_clsprc?.replaceAll?.(',', ''));
+    const change_percentage = parseFloat(fluc_rt?.replaceAll?.(',', ''));
+    const marketcap = parseInt(mktcap?.replaceAll?.(',', ''));
+    const p: TypeTreemapPrice = {
+      name: isu_abbrv,
+      value: marketcap,
+      close,
+      change_percentage,
+    };
+    r.treemap.children.push(p);
+  }
+
+  return r;
+};

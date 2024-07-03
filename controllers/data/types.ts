@@ -54,6 +54,16 @@ export type TypeKRXPriceRaw = {
 
 export type TypeKRXPrice = { close: number; change_percentage: number; marketcap: number };
 
+export type TypeTreemapData = { current_datetime: Date; treemap: TypeTreemapPrice };
+
+export type TypeTreemapPrice = {
+  name: string;
+  value?: number; // value === market cap
+  close?: number;
+  change_percentage?: number;
+  children?: TypeTreemapPrice[]; // Recursive
+};
+
 export type TypeParabolicSAR = TypeDate & { sar: number; isUpTrend: boolean };
 
 export type TypeMovingAvg = TypeDate & { avg: number };
