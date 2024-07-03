@@ -3,7 +3,9 @@ import { PRICES_URL } from '../apiURLs';
 import {
   TypeError,
   TypeIDWeek,
-  TypePrice,
+  TypeKRX,
+  TypeKRXPrice,
+  TypeKRXRaw,
   TypePriceRaw,
   TypePriceRequest,
   TypePriceRequestType,
@@ -27,7 +29,7 @@ export const useGetPricesLatest = (req: TypePriceRequest) => {
     queryFn: getPricesLatest,
     enabled: !!code && !!type,
     staleTime: 60000, // 1 minute
-    placeholderData: [],
+    placeholderData: { current_datetime: new Date(), prices: [] },
   });
 };
 
@@ -85,27 +87,24 @@ const getPricesLatest = async ({ queryKey }: QueryFunctionContext<string[]>) => 
     throw Error(err.message);
   }
 
-  const data: any = await res.json();
+  const data: TypeKRXRaw = await res.json();
+  const prices = data?.prices ?? [];
+
+  // Validate data
   if (typeof data !== 'object') throw Error(`failed to GET ${url}`);
+  if (typeof data?.current_datetime !== 'string') throw Error(`failed to parce data from ${url}`);
+  if (prices.length === 0) throw Error(`failed to parce data from ${url}`);
 
-  const dateRaw: string = data.current_datetime;
-  if (typeof dateRaw !== 'string') throw Error(`failed to parce data from ${url}`);
-
-  const pricesRaw: any[] = data.prices;
-  if (typeof pricesRaw !== 'object' || pricesRaw.length === 0)
-    throw Error(`failed to parce data from ${url}`);
-
-  const date = new Date(dateRaw);
-  const prices: TypePrice[] = [];
-  for (let i = 0; i < pricesRaw.length; i++) {
-    const { tdd_opnprc, tdd_hgprc, tdd_lwprc, tdd_clsprc } = pricesRaw[i];
-    const open = parseInt(tdd_opnprc?.replaceAll?.(',', ''));
-    const high = parseInt(tdd_hgprc?.replaceAll?.(',', ''));
-    const low = parseInt(tdd_lwprc?.replaceAll?.(',', ''));
+  const r: TypeKRX = { current_datetime: new Date(data.current_datetime), prices: [] };
+  for (let i = 0; i < prices.length; i++) {
+    const { tdd_clsprc, fluc_rt, mktcap } = prices[i];
     const close = parseInt(tdd_clsprc?.replaceAll?.(',', ''));
-    const p: TypePrice = { date, open, high, low, close };
-    prices.push(p);
+    const change_percentage = parseFloat(fluc_rt?.replaceAll?.(',', ''));
+    const marketcap = parseInt(mktcap?.replaceAll?.(',', ''));
+    r.prices.push({ close, change_percentage, marketcap } as TypeKRXPrice);
   }
 
-  return prices;
+  return r;
 };
+
+// const getPricesSnapshot = async ({ queryKey }: QueryFunctionContext<string[]>) => {};

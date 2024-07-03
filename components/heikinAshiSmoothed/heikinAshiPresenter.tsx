@@ -42,7 +42,7 @@ const Presenter = (props: { req: TypePriceRequest; marginLeft: number; max?: num
         dataBands.slice(-max),
         overlays,
         marginLeft,
-        data?.[0],
+        data?.prices[0],
       );
     }
   }, [req, marginLeft, max, dataHeikinAshi, dataSar, dataBands, overlays, data]);

@@ -9,6 +9,7 @@ import {
 } from '../../controllers/chart';
 import {
   TypeChartDisplay,
+  TypeKRXPrice,
   TypeParabolicSAR,
   TypePrice,
   TypePriceBollingerBands,
@@ -28,7 +29,7 @@ const draw = (
   bandData: TypePriceBollingerBands[],
   overlays: TypeChartDisplay,
   marginLeft: number,
-  latestPriceData?: TypePrice,
+  latestPriceData?: TypeKRXPrice,
 ) => {
   if (!candleData.length) return;
 
