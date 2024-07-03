@@ -30,7 +30,7 @@ export type TypePriceRaw = TypeVolume & {
 };
 
 export type TypeKRXRaw = { current_datetime?: string; prices?: TypeKRXPriceRaw[] };
-export type TypeKRX = { current_datetime: Date; prices: TypeKRXPrice[] };
+export type TypeKRX = { current_datetime?: Date; prices: TypeKRXPrice[] };
 
 export type TypeKRXPriceRaw = {
   sect_tp_nm?: string;
@@ -54,7 +54,7 @@ export type TypeKRXPriceRaw = {
 
 export type TypeKRXPrice = { close: number; change_percentage: number; marketcap: number };
 
-export type TypeTreemapData = { current_datetime: Date; treemap: TypeTreemapPrice };
+export type TypeTreemapData = { current_datetime?: Date; treemap: TypeTreemapPrice };
 
 export type TypeTreemapPrice = {
   name: string;
