@@ -29,6 +29,41 @@ export type TypePriceRaw = TypeVolume & {
   base_stock_cnt: number;
 };
 
+export type TypeKRXRaw = { current_datetime?: string; prices?: TypeKRXPriceRaw[] };
+export type TypeKRX = { current_datetime?: Date; prices: TypeKRXPrice[] };
+
+export type TypeKRXPriceRaw = {
+  sect_tp_nm?: string;
+  isu_srt_cd?: string;
+  isu_cd?: string;
+  isu_abbrv?: string;
+  tdd_opnprc?: string;
+  tdd_hgprc?: string;
+  tdd_lwprc?: string;
+  tdd_clsprc?: string;
+  cmpprevdd_prc?: string;
+  fluc_rt?: string;
+  fluc_tp_cd?: string;
+  acc_trdvol?: string;
+  acc_trdval?: string;
+  list_shrs?: string;
+  mktcap?: string;
+  mkt_id?: string;
+  mkt_nm?: string;
+};
+
+export type TypeKRXPrice = { close: number; change_percentage: number; marketcap: number };
+
+export type TypeTreemapData = { current_datetime?: Date; treemap: TypeTreemapPrice };
+
+export type TypeTreemapPrice = {
+  name: string;
+  value?: number; // value === market cap
+  close?: number;
+  change_percentage?: number;
+  children?: TypeTreemapPrice[]; // Recursive
+};
+
 export type TypeParabolicSAR = TypeDate & { sar: number; isUpTrend: boolean };
 
 export type TypeMovingAvg = TypeDate & { avg: number };

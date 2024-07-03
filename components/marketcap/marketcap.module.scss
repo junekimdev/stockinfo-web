@@ -1,0 +1,68 @@
+/* autoprefixer grid: autoplace */
+@use '../theme';
+
+.container {
+  width: 100%;
+}
+
+.header {
+  width: 100%;
+  padding: 4px 0.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: rgba(0, 0, 0, 0.3);
+  gap: 0.5rem;
+
+  @include theme.pc {
+    flex-direction: row;
+    justify-content: space-between;
+  }
+}
+
+.headerTitle {
+  margin: 0;
+}
+
+.downloadBtn {
+  width: 100%;
+  padding: 0.5rem 1rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 4px;
+  cursor: pointer;
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.3);
+    color: var(--black);
+  }
+
+  @include theme.pc {
+    width: auto;
+  }
+}
+
+.treemapWrapper {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.treemap {
+  max-width: 100%;
+  font-size: 10px;
+  margin: 4px;
+
+  @include theme.pc {
+    max-width: 90%;
+  }
+}
+
+.spinner {
+  @include theme.getSpinner(24px, 2px, var(--spinner-color));
+  position: absolute;
+  top: 0;
+}
