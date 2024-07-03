@@ -6,15 +6,16 @@ import { useDownloadClick } from './marketcapInteractor';
 const View = (props: { svgID: string }) => {
   const { svgID } = props;
   const { data } = useGetPricesSnapshot();
-  const date = data?.current_datetime ?? new Date();
-  const timestamp = date.getTime() / 1000; // in seconds
+  const timestamp = (data?.current_datetime?.getTime() ?? 0) / 1000; // in seconds
   const filename = `jkstock_krx_treemap_${timestamp}`;
   const onDownloadClick = useDownloadClick(svgID, filename);
 
   return (
     <header className={styles.header}>
       <h3 className={styles.headerTitle}>KRX Treemap sorted by Market Cap</h3>
-      <div>{`updated ${getDatetimeString(date)}`}</div>
+      <div>
+        {data?.current_datetime ? `updated ${getDatetimeString(data.current_datetime)}` : ''}
+      </div>
       <div className={styles.downloadBtn} title="Download Treemap" onClick={onDownloadClick}>
         <i className="fa-solid fa-download"></i>
       </div>

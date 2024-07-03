@@ -31,7 +31,7 @@ export const useGetPricesLatest = (req: TypePriceRequest) => {
     queryFn: getPricesLatest,
     enabled: !!code && !!type,
     staleTime: 60000, // 1 minute
-    placeholderData: { current_datetime: new Date(), prices: [] },
+    placeholderData: { current_datetime: undefined, prices: [] },
   });
 };
 
@@ -40,7 +40,7 @@ export const useGetPricesSnapshot = () => {
     queryKey: ['prices', 'snapshot'],
     queryFn: getPricesSnapshot,
     staleTime: 60000, // 1 minute
-    placeholderData: { current_datetime: new Date(), treemap: { name: 'KRX', children: [] } },
+    placeholderData: { current_datetime: undefined, treemap: { name: 'KRX', children: [] } },
   });
 };
 
