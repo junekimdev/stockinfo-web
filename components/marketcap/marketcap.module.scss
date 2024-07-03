@@ -60,3 +60,9 @@
     max-width: 90%;
   }
 }
+
+.spinner {
+  @include theme.getSpinner(24px, 2px, var(--spinner-color));
+  position: absolute;
+  top: 0;
+}
