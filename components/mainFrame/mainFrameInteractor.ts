@@ -11,6 +11,16 @@ export const useToggleMenu = () => {
   return useCallback(() => setState((v) => !v), []);
 };
 
+export const useMoveToHome = () => {
+  const resetCurrent = useResetRecoilState(StateCurrentTab);
+  const router = useRouter();
+
+  return useCallback(() => {
+    resetCurrent();
+    router.push('/');
+  }, []);
+};
+
 export const useCloseAllClick = () => {
   const resetTabs = useResetRecoilState(StateCompanyTabs);
   const resetCurrent = useResetRecoilState(StateCurrentTab);
@@ -21,7 +31,7 @@ export const useCloseAllClick = () => {
     resetTabs();
     resetCurrent();
     setOpened(false);
-    router.replace('/', '/');
+    router.replace('/search');
   }, []);
 };
 
@@ -31,7 +41,7 @@ export const useAddNewTabClick = () => {
 
   return useCallback(() => {
     resetState();
-    router.replace('/', '/');
+    router.push('/search');
   }, []);
 };
 
@@ -41,7 +51,7 @@ export const useMoveToTabClick = (tab: TypeCompanyTab) => {
 
   return useCallback(() => {
     setState(tab);
-    router.replace('/chart', '/');
+    router.replace('/chart', '/search');
   }, [tab]);
 };
 
@@ -58,7 +68,7 @@ export const useRemoveTabClick = (tab: TypeCompanyTab) => {
       setTabs(tabs.filter((v) => v.uuid !== tab.uuid));
       if (currentTab.uuid === tab.uuid) {
         resetCurrent();
-        router.replace('/', '/');
+        router.replace('/search');
       }
     },
     [tab, tabs, currentTab],
