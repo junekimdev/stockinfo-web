@@ -54,7 +54,7 @@ export const useDraw = (svgID: string, max = 100) => {
           .map((d) => d.data.name)
           .join(
             '.',
-          )}\nMktCap#${i + 1}\n${format(d.data.close ?? 0)}\n${`${d.data.change_percentage}%`}`,
+          )}\nMktCap#${i + 1}\n${format(d.data.close ?? 0)}\n${`${d.data.change_percentage ?? '-'}%`}`,
     );
 
     leaf
@@ -69,7 +69,9 @@ export const useDraw = (svgID: string, max = 100) => {
       .selectAll('tspan')
       .data((d, i) =>
         // Show top (max) only
-        i < max ? [d.data.name, format(d.data.close ?? 0), `${d.data.change_percentage}%`] : '',
+        i < max
+          ? [d.data.name, format(d.data.close ?? 0), `${d.data.change_percentage ?? '-'}%`]
+          : '',
       )
       .join('tspan')
       .attr('x', 3)
