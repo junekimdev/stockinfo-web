@@ -4,7 +4,7 @@ import { useDraw } from './marketcapInteractor';
 import Header from './marketcapViewHeader';
 
 const Presenter = () => {
-  const { isSuccess } = useGetPricesSnapshot();
+  const { data } = useGetPricesSnapshot();
   const svgID = styles.treemap;
   useDraw(svgID);
 
@@ -13,7 +13,7 @@ const Presenter = () => {
       <Header svgID={svgID} />
       <div className={styles.treemapWrapper}>
         <svg id={svgID} className={styles.treemap}></svg>
-        {!isSuccess && <div className={styles.spinner}></div>}
+        {!data?.treemap && <div className={styles.spinner}></div>}
       </div>
     </section>
   );

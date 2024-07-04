@@ -40,7 +40,7 @@ export const useGetPricesSnapshot = () => {
     queryKey: ['prices', 'snapshot'],
     queryFn: getPricesSnapshot,
     staleTime: 60000, // 1 minute
-    placeholderData: { current_datetime: undefined, treemap: { name: 'KRX', children: [] } },
+    // placeholderData: { current_datetime: undefined, treemap: { name: 'KRX', children: [] } },
   });
 };
 
