@@ -66,6 +66,8 @@ export const useDraw = (svgID: string, max = 100) => {
     leaf
       .append('text')
       .attr('fill', 'white')
+      .attr('font-family', "'Noto Sans KR', sans-serif")
+      .attr('font-size', '10px')
       .selectAll('tspan')
       .data((d, i) =>
         // Show top (max) only
@@ -87,7 +89,10 @@ export const useDownloadClick = (svgID: string, filename: string) => {
     const svg = document.querySelector(`#${svgID}`);
     if (!svg) return;
 
-    const styleRules = ['width: 100%;', 'font-size: 10px;'];
+    const styleRules = [
+      "@import 'https://fonts.googleapis.com/css?family=Noto+Sans+KR&display=swap';",
+      'width: 100%;',
+    ];
     const style = document.createElement('style');
     style.type = 'text/css';
     style.appendChild(document.createTextNode(styleRules.join(' ')));
