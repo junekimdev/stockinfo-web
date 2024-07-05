@@ -2,6 +2,7 @@ import { useGetPricesSnapshot } from '../../controllers/net/price';
 import styles from './marketcap.module.scss';
 import { useDraw } from './marketcapInteractor';
 import Header from './marketcapViewHeader';
+import Loading from './marketcapViewLoading';
 
 const Presenter = () => {
   const { data } = useGetPricesSnapshot();
@@ -13,7 +14,7 @@ const Presenter = () => {
       <Header svgID={svgID} />
       <div className={styles.treemapWrapper}>
         <svg id={svgID} className={styles.treemap}></svg>
-        {!data?.treemap && <div className={styles.spinner}></div>}
+        {!data?.treemap && <Loading />}
       </div>
     </section>
   );
