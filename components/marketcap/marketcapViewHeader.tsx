@@ -8,7 +8,9 @@ const View = (props: { svgID: string }) => {
   const { data } = useGetPricesSnapshot();
   const timestamp = (data?.current_datetime?.getTime() ?? 0) / 1000; // in seconds
   const filename = `jkstock_krx_treemap_${timestamp}`;
+
   const onDownloadClick = useDownloadClick(svgID, filename);
+  const onDownloadNotReadyClick = () => alert('Image is not yet ready to download');
 
   return (
     <header className={styles.header}>
@@ -16,7 +18,11 @@ const View = (props: { svgID: string }) => {
       <div>
         {data?.current_datetime ? `updated ${getDatetimeString(data.current_datetime)}` : ''}
       </div>
-      <div className={styles.downloadBtn} title="Download Treemap" onClick={onDownloadClick}>
+      <div
+        className={styles.downloadBtn}
+        title="Download Treemap"
+        onClick={data?.treemap ? onDownloadClick : onDownloadNotReadyClick}
+      >
         <i className="fa-solid fa-download"></i>
       </div>
     </header>
