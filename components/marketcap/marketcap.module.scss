@@ -55,6 +55,7 @@
 .treemap {
   max-width: 100%;
   margin: 4px;
+  background-color: black;
 
   @include theme.pc {
     max-width: 90%;
