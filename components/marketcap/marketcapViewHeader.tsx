@@ -1,4 +1,4 @@
-import { getDatetimeString } from '../../controllers/datetime';
+import { getDatetimeString, getDatetimeStringForFilename } from '../../controllers/datetime';
 import { useGetPricesSnapshot } from '../../controllers/net/price';
 import styles from './marketcap.module.scss';
 import { useDownloadClick } from './marketcapInteractor';
@@ -6,7 +6,7 @@ import { useDownloadClick } from './marketcapInteractor';
 const View = (props: { svgID: string }) => {
   const { svgID } = props;
   const { data } = useGetPricesSnapshot();
-  const timestamp = (data?.current_datetime?.getTime() ?? 0) / 1000; // in seconds
+  const timestamp = getDatetimeStringForFilename(data?.current_datetime);
   const filename = `jkstock_krx_treemap_${timestamp}`;
 
   const onDownloadClick = useDownloadClick(svgID, filename);

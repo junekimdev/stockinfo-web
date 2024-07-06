@@ -21,7 +21,7 @@ const View = (props: { code: string }) => {
           <div className={styles.spinner}></div>
         )}
       </div>
-      <div>{data?.current_datetime ? getDatetimeString(data?.current_datetime) : ''}</div>
+      <div>{getDatetimeString(data?.current_datetime)}</div>
     </h5>
   );
 };
