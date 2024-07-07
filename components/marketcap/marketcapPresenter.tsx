@@ -13,7 +13,7 @@ const Presenter = () => {
     <section className={styles.container}>
       <Header svgID={svgID} />
       <div className={styles.treemapWrapper}>
-        <svg id={svgID} className={styles.treemap}></svg>
+        <svg id={svgID} className={data?.treemap ? styles.treemap : styles.treemapHidden}></svg>
         {!data?.treemap && <Loading />}
       </div>
     </section>
