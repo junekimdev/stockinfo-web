@@ -14,7 +14,7 @@ const draw = (chartID: string, data: TypePrice[]) => {
   const height = chartHeight + margin.top + margin.bottom;
   const width = chartWidth + margin.left + margin.right;
 
-  const svg = d3.select(`#${chartID}`).attr('width', width).attr('height', height);
+  const svg = d3.select(`#${chartID}`).style('width', width).style('height', height);
 
   // Clear SVG before redrawing
   svg.selectAll('*').remove();
