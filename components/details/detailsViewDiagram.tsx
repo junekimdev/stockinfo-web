@@ -41,11 +41,11 @@ const View = (props: {
         </div>
         <div className={styles.diagramPBR}>
           <h5>PBR</h5>
-          <span>{getRatioString(cap / equ)}</span>
+          <span>{`${getRatioString(cap / equ)} x`}</span>
         </div>
         <div className={styles.diagramPER}>
           <h5>PER</h5>
-          <span>{getRatioString(cap / net)}</span>
+          <span>{`${getRatioString(cap / net)} x`}</span>
         </div>
         <div className={styles.diagramROE}>
           <h5>ROE</h5>
