@@ -23,7 +23,7 @@ export type TypeIDPriceMA = TypePriceRequest & { method: TypeAvgMethod; period: 
 
 export type TypeChartData =
   | TypePrice
-  | TypeVolume
+  | TypePriceVolume
   | TypePricePercentChange
   | TypeParabolicSAR
   | TypeMovingAvg
@@ -34,7 +34,7 @@ export type TypePrice = TypeDate & {
   high: number;
   low: number;
 };
-export type TypeVolume = TypeDate & { volume: number };
+export type TypePriceVolume = TypePrice & { volume: number };
 export type TypePricePercentChange = TypeDate & { percent_change: number };
 export type TypeParabolicSAR = TypeDate & { sar: number; isUpTrend: boolean };
 export type TypeMovingAvg = TypeDate & { avg: number };
@@ -43,12 +43,10 @@ export type TypePriceBollingerBands = TypeDate & {
   middle: number;
   lower: number;
 };
-export type TypePriceRaw = TypeDate &
-  TypePrice &
-  TypeVolume & {
-    trading_value: number;
-    base_stock_cnt: number;
-  };
+export type TypePriceRaw = TypePriceVolume & {
+  trading_value: number;
+  base_stock_cnt: number;
+};
 
 export type TypeChartOverlay = 'LatestPrice' | 'ParabolicSAR' | 'BollingerBands';
 export type TypeChartDisplay = {

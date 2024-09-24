@@ -13,7 +13,7 @@ import {
   TypeParabolicSAR,
   TypePrice,
   TypePriceBollingerBands,
-  TypeVolume,
+  TypePriceVolume,
 } from './data/types';
 
 export const getCandleColor = (d: TypePrice) => {
@@ -287,7 +287,7 @@ export const drawBollingerBands = (
     );
 };
 
-export const getMarginLeft = (data: TypeVolume[] | undefined) => {
+export const getMarginLeft = (data: TypePriceVolume[] | undefined) => {
   if (data && data.length) {
     const size = 8;
     const maxChar = data
