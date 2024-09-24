@@ -3,7 +3,13 @@ export type TypeError = { code: number; message: string };
 export type TypePriceRequestType = 'daily' | 'weekly' | 'latest';
 export type TypeAvgMethod = 'simple' | 'exponential' | 'weighted';
 export type TypeAvgValue = 'close' | 'open' | 'high' | 'low';
-export type TypeChart = 'price' | 'percent-change' | 'heikin-aski' | 'heikin-aski-smoothed';
+export type TypeChart =
+  | 'price'
+  | 'percent-change'
+  | 'heikin-aski'
+  | 'heikin-aski-smoothed'
+  | 'mini-price'
+  | 'volume';
 export type TypeDartReportCode = '11011' | '11012' | '11013' | '11014';
 export type TypeDartIndexCode = 'M210000' | 'M220000' | 'M230000' | 'M240000';
 export type TypeDartStatementType = 'OFS' | 'CFS';
@@ -15,25 +21,42 @@ export type TypePriceRequest = { code: string; type: TypePriceRequestType };
 export type TypeChartRequest = { code: string; type: TypeChart };
 export type TypeIDPriceMA = TypePriceRequest & { method: TypeAvgMethod; period: number };
 
+export type TypeChartData =
+  | TypePrice
+  | TypePriceVolume
+  | TypePricePercentChange
+  | TypeParabolicSAR
+  | TypeMovingAvg
+  | TypePriceBollingerBands;
 export type TypePrice = TypeDate & {
   open: number;
   close: number;
   high: number;
   low: number;
 };
-
-export type TypeVolume = TypePrice & { volume: number };
-
-export type TypePriceRaw = TypeVolume & {
+export type TypePriceVolume = TypePrice & { volume: number };
+export type TypePricePercentChange = TypeDate & { percent_change: number };
+export type TypeParabolicSAR = TypeDate & { sar: number; isUpTrend: boolean };
+export type TypeMovingAvg = TypeDate & { avg: number };
+export type TypePriceBollingerBands = TypeDate & {
+  upper: number;
+  middle: number;
+  lower: number;
+};
+export type TypePriceRaw = TypePriceVolume & {
   trading_value: number;
   base_stock_cnt: number;
 };
 
-export type TypePricePercentChange = TypeDate & { percent_change: number };
+export type TypeChartOverlay = 'LatestPrice' | 'ParabolicSAR' | 'BollingerBands';
+export type TypeChartDisplay = {
+  LatestPrice: boolean;
+  ParabolicSAR: boolean;
+  BollingerBands: boolean;
+};
 
 export type TypeKRXRaw = { current_datetime?: string; prices?: TypeKRXPriceRaw[] };
 export type TypeKRX = { current_datetime?: Date; prices: TypeKRXPrice[] };
-
 export type TypeKRXPriceRaw = {
   sect_tp_nm?: string;
   isu_srt_cd?: string;
@@ -53,27 +76,14 @@ export type TypeKRXPriceRaw = {
   mkt_id?: string;
   mkt_nm?: string;
 };
-
 export type TypeKRXPrice = { close: number; change_percentage: number; marketcap: number };
-
 export type TypeTreemapData = { current_datetime?: Date; treemap: TypeTreemapPrice };
-
 export type TypeTreemapPrice = {
   name: string;
   value?: number; // value === market cap
   close?: number;
   change_percentage?: number;
   children?: TypeTreemapPrice[]; // Recursive
-};
-
-export type TypeParabolicSAR = TypeDate & { sar: number; isUpTrend: boolean };
-
-export type TypeMovingAvg = TypeDate & { avg: number };
-
-export type TypePriceBollingerBands = TypeDate & {
-  upper: number;
-  middle: number;
-  lower: number;
 };
 
 export type TypeCompany = {
@@ -84,18 +94,10 @@ export type TypeCompany = {
   crno: string;
   corpNm: string;
 };
-
 export type TypeCompanyTab = {
   uuid: string;
   company: TypeCompany;
   mainType: TypePriceRequestType;
-};
-
-export type TypeChartOverlay = 'LatestPrice' | 'ParabolicSAR' | 'BollingerBands';
-export type TypeChartDisplay = {
-  LatestPrice: boolean;
-  ParabolicSAR: boolean;
-  BollingerBands: boolean;
 };
 
 export type TypeDartRes = {
@@ -103,7 +105,6 @@ export type TypeDartRes = {
   message: string;
   list?: TypeDartIndexItem[];
 };
-
 export type TypeDartIndexItem = {
   bsns_year: string;
   corp_code: string;
@@ -115,13 +116,11 @@ export type TypeDartIndexItem = {
   idx_nm: string;
   idx_val?: string;
 };
-
 export type TypeDartStatementRes = {
   status: string;
   message: string;
   list?: TypeDartStatementItem[];
 };
-
 export type TypeDartStatementItem = {
   rcept_no: string;
   reprt_code: string;
