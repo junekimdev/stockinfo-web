@@ -1,5 +1,5 @@
 import { useRouter } from 'next/router';
-import { Dispatch, DragEvent, MouseEvent, SetStateAction, TouchEvent, useCallback } from 'react';
+import { Dispatch, DragEvent, MouseEvent, SetStateAction, useCallback } from 'react';
 import { useRecoilState, useRecoilValue, useResetRecoilState, useSetRecoilState } from 'recoil';
 import { StateCompanyTabs, StateCurrentTab } from '../../controllers/data/states';
 import { TypeCompanyTab, TypePriceRequestType } from '../../controllers/data/types';
@@ -161,10 +161,11 @@ const placeholderId = 'move-placeholder';
 
 export const useTouchStart = (setDragged: Dispatch<SetStateAction<HTMLLIElement | undefined>>) => {
   return useCallback(
-    (e: TouchEvent<HTMLUListElement>) => {
+    // NOTICE: `TouchEvent` is Typescript event
+    (e: TouchEvent) => {
       if (e.touches.length !== 1) return; // only first touch on the icon starts DnD
       if (!(e.target instanceof HTMLElement)) return;
-      if (!e.target.attributes.draggable) return;
+      if (e.target.getAttribute('draggable') !== 'true') return;
 
       const p = e.target.parentElement;
       if (!(p instanceof HTMLLIElement)) return;
@@ -190,7 +191,8 @@ export const useTouchStart = (setDragged: Dispatch<SetStateAction<HTMLLIElement 
 
 export const useTouchMove = (dragged: HTMLLIElement | undefined) => {
   return useCallback(
-    (e: TouchEvent<HTMLUListElement>) => {
+    // NOTICE: `TouchEvent` is Typescript event
+    (e: TouchEvent) => {
       if (!dragged) return;
       e.preventDefault(); // This stops window scrolling while this touch event is fired
 
@@ -246,7 +248,7 @@ export const useTouchEnd = (
   const setTabs = useSetRecoilState(StateCompanyTabs);
 
   return useCallback(
-    (e: TouchEvent<HTMLUListElement>) => {
+    (e: React.TouchEvent<HTMLUListElement>) => {
       if (!dragged) return;
 
       // Remove placeholder

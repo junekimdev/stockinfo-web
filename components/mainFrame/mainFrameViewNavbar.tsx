@@ -22,7 +22,7 @@ const View = () => {
   const tabs = useRecoilValue(StateCompanyTabs);
   const menuOpened = useRecoilValue(MainFrameStateMenuOpened);
   const [dragged, setDragged] = useState<HTMLLIElement>();
-  const ulRef = useRef<HTMLUListElement>();
+  const ulRef = useRef<HTMLUListElement>(null);
 
   const onToggleMenu = useToggleMenu();
   const moveToHome = useMoveToHome();
