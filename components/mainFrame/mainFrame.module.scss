@@ -52,7 +52,6 @@
 
   @include theme.tablet {
     width: calc(100% - var(--navbar-width));
-    height: 100vh;
   }
 }
 
