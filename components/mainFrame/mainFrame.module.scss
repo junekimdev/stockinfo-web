@@ -17,7 +17,7 @@
   display: flex;
   flex-direction: column;
 
-  @include theme.tablet {
+  @include theme.pc {
     flex-direction: row;
     --navbar-min-gap: 4px;
   }
@@ -33,7 +33,7 @@
   background-color: var(--navbar-color-primary);
   color: var(--navbar-font-color);
 
-  @include theme.tablet {
+  @include theme.pc {
     position: sticky;
     top: 0;
     width: var(--navbar-width);
@@ -50,7 +50,7 @@
   align-items: center;
   overflow: auto;
 
-  @include theme.tablet {
+  @include theme.pc {
     width: calc(100% - var(--navbar-width));
   }
 }
@@ -173,19 +173,19 @@
 
 .tabIconHoverShow {
   @extend .tabIcon;
-  display: none;
 
-  // Touch devices
-  @media (hover: none) {
-    display: flex;
+  @include theme.pc {
+    display: none;
   }
 }
 
 .tabItem:hover,
 .tabItem:focus {
   // display when parent gets hover/focus
-  .tabIconHoverShow {
-    display: flex;
+  @include theme.pc {
+    .tabIconHoverShow {
+      display: flex;
+    }
   }
 }
 
@@ -219,7 +219,7 @@
 .menuToggleBtn {
   display: none;
 
-  @include theme.tablet {
+  @include theme.pc {
     width: 100%;
     min-height: var(--navbar-height-main);
     display: flex;
@@ -234,7 +234,7 @@
 .menuOpenBtn {
   @include theme.arrowDown;
 
-  @include theme.tablet {
+  @include theme.pc {
     @include theme.arrowRight;
   }
 }
@@ -242,7 +242,7 @@
 .menuCloseBtn {
   @include theme.arrowUp;
 
-  @include theme.tablet {
+  @include theme.pc {
     @include theme.arrowLeft;
   }
 }
@@ -262,7 +262,7 @@
   transform-origin: center left;
   transition: transform 0.2s ease-in-out;
 
-  @include theme.tablet {
+  @include theme.pc {
     position: fixed;
     bottom: 0;
     left: 0;
@@ -277,7 +277,7 @@
 .menusClosed {
   @extend .menusOpened;
 
-  @include theme.tablet {
+  @include theme.pc {
     transform: scaleX(0);
   }
 }
@@ -287,7 +287,7 @@
   width: 100%;
   padding: 0.5rem;
 
-  @include theme.tablet {
+  @include theme.pc {
     width: auto;
   }
 }
@@ -297,7 +297,7 @@
   width: 100%;
   padding: 0.5rem;
 
-  @include theme.tablet {
+  @include theme.pc {
     width: auto;
   }
 }
@@ -312,7 +312,7 @@
   background: rgba(0, 0, 0, 0.3);
   z-index: 1;
 
-  @include theme.tablet {
+  @include theme.pc {
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
@@ -341,7 +341,7 @@
     color: var(--font-color-grey);
   }
 
-  @include theme.tablet {
+  @include theme.pc {
     h1 {
       width: auto;
     }
@@ -383,7 +383,7 @@
   flex-wrap: wrap;
   gap: 0.5rem;
 
-  @include theme.tablet {
+  @include theme.pc {
     width: auto;
   }
 }
