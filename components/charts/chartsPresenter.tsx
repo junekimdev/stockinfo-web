@@ -23,8 +23,8 @@ import Placeholder from './chartsViewPlaceholder';
 const Presenter = () => {
   const { company, mainType } = useRecoilValue(StateCurrentTab);
   const req: TypePriceRequest = { code: company.srtnCd, type: mainType };
-  const priceData = useGetPrices(req);
-  const marginLeft = getMarginLeft(priceData.data);
+  const { data } = useGetPrices(req);
+  const marginLeft = getMarginLeft(data);
   const rulerOnClick = useRulerOnClick();
   useBollinger(req);
   useSAR(req);
@@ -32,7 +32,7 @@ const Presenter = () => {
 
   return (
     <section className={styles.container} onClick={rulerOnClick}>
-      {priceData.data?.length ? (
+      {data?.length ? (
         <>
           <Price req={req} marginLeft={marginLeft} />
           <HeikinAshi req={req} marginLeft={marginLeft} />
