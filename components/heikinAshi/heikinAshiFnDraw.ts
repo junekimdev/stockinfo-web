@@ -7,11 +7,11 @@ import {
   initChart,
 } from '../../controllers/chart';
 import {
-  TypeChartDisplay,
   TypeKRXPrice,
   TypeParabolicSAR,
   TypePrice,
   TypePriceBollingerBands,
+  TypePriceDisplay,
 } from '../../controllers/data/types';
 
 const draw = (
@@ -19,7 +19,7 @@ const draw = (
   data: TypePrice[],
   sarData: TypeParabolicSAR[],
   bandData: TypePriceBollingerBands[],
-  overlays: TypeChartDisplay,
+  display: TypePriceDisplay,
   marginLeft: number,
   latestPriceData?: TypeKRXPrice,
 ) => {
@@ -32,7 +32,7 @@ const draw = (
     top: 10,
     bottom: 10,
     left: marginLeft,
-    right: 0,
+    right: marginLeft + 10,
   };
 
   const { chart, x, y } = initChart({ id, yMin, yMax, data, margin });
@@ -41,14 +41,14 @@ const draw = (
   drawCandle(chart, x, y, data);
 
   // Draw latest price line
-  if (overlays.LatestPrice && latestPriceData)
+  if (display.LatestPrice && latestPriceData)
     drawLatestPrice(chart, x, y, data[0], data[data.length - 1], latestPriceData);
 
   // Draw Parabolic SAR
-  if (overlays.ParabolicSAR && sarData.length) drawSAR(chart, x, y, sarData);
+  if (display.ParabolicSAR && sarData.length) drawSAR(chart, x, y, sarData);
 
   // Draw Bollinger Bands
-  if (overlays.BollingerBands && bandData.length) drawBollingerBands(chart, x, y, bandData);
+  if (display.BollingerBands && bandData.length) drawBollingerBands(chart, x, y, bandData);
 };
 
 export default draw;

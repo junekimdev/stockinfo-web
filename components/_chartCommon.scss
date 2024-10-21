@@ -36,7 +36,7 @@
   }
 }
 
-.overlaySelectorWrapper {
+.displaySelectorWrapper {
   grid-area: selector;
   padding: 0 0.5rem;
   display: flex;
@@ -45,7 +45,7 @@
   cursor: default;
 }
 
-.overlaySelector {
+.displaySelector {
   display: flex;
   align-items: center;
   gap: 4px;
