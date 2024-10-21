@@ -14,6 +14,7 @@ import {
   TypePriceBollingerBands,
   TypePriceDisplayItem,
   TypePriceVolume,
+  TypeRectCoordi,
 } from './data/types';
 
 export const getCandleColor = (d: TypePrice) => {
@@ -370,24 +371,24 @@ export const addSymbolDownArrow = (
  * Adds clipPath to SVG
  * @param chart d3 Selection object
  * @param chartId chart ID
- * @param clipArea coordinate of rect [x0,y0,w,h]
+ * @param clipArea coordinate of rect
  * @param name name of the clipPath
  * @returns #ID (id of the clipPath prefixed with hash tag)
  */
 export const addClipPathAsShowWindow = (
   chart: d3.Selection<SVGGElement, unknown, HTMLElement, any>,
   chartId: string,
-  clipArea: [number, number, number, number],
+  clipArea: TypeRectCoordi,
   name: string,
 ) => {
   const id = `${chartId}-clip-${name}`;
-  const [x0, y0, w, h] = clipArea;
+  const { x, y, w, h } = clipArea;
   chart
     .append('clipPath')
     .attr('id', id)
     .append('rect')
-    .attr('x', x0)
-    .attr('y', y0)
+    .attr('x', x)
+    .attr('y', y)
     .attr('width', w)
     .attr('height', h);
   return `#${id}`;

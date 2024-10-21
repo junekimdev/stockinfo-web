@@ -1,4 +1,5 @@
 export type TypeError = { code: number; message: string };
+export type TypeRectCoordi = { x: number; y: number; w: number; h: number };
 
 export type TypePriceRequestType = 'daily' | 'weekly' | 'latest';
 export type TypeAvgMethod = 'simple' | 'exponential' | 'weighted';

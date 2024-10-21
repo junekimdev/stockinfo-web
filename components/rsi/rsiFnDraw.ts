@@ -5,7 +5,7 @@ import {
   getXCentered,
   initChart,
 } from '../../controllers/chart';
-import { TypeRsi, TypeRsiDisplay } from '../../controllers/data/types';
+import { TypeRectCoordi, TypeRsi, TypeRsiDisplay } from '../../controllers/data/types';
 
 const draw = (id: string, data: TypeRsi[], display: TypeRsiDisplay, marginLeft: number) => {
   if (!data?.length) return;
@@ -40,8 +40,13 @@ const draw = (id: string, data: TypeRsi[], display: TypeRsiDisplay, marginLeft: 
   const w = (x(getDateString(data[data.length - 1])) ?? 0) + x.bandwidth();
 
   // Add clip path
-  const coordiOverbought = [0, 0, w, y(overboughtValue)];
-  const coordiOversold = [0, y(oversoldValue), w, Math.abs(y(oversoldValue) - y(yMin))];
+  const coordiOverbought: TypeRectCoordi = { x: 0, y: 0, w, h: y(overboughtValue) };
+  const coordiOversold: TypeRectCoordi = {
+    x: 0,
+    y: y(oversoldValue),
+    w,
+    h: Math.abs(y(oversoldValue) - y(yMin)),
+  };
   const clipIdOverbought = addClipPathAsShowWindow(chart, id, coordiOverbought, 'overbought');
   const clipIdOversold = addClipPathAsShowWindow(chart, id, coordiOversold, 'oversold');
 
