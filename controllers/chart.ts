@@ -6,8 +6,6 @@ import {
   TypeChart,
   TypeChartData,
   TypeDate,
-  TypeIDWeek,
-  TypeKRXPrice,
   TypeMovingAvg,
   TypeParabolicSAR,
   TypePrice,
@@ -16,6 +14,7 @@ import {
   TypePriceVolume,
   TypeRectCoordi,
 } from './data/types';
+import { to2DigitString } from './number';
 
 export const getCandleColor = (d: TypePrice) => {
   if (d.open === d.close) return 'gray';
@@ -24,7 +23,7 @@ export const getCandleColor = (d: TypePrice) => {
 
 export const getChangeColor = (d: number) => {
   if (d === 0) return 'gray';
-  return d < 0 ? 'blue' : 'red';
+  return d > 0 ? 'red' : 'blue';
 };
 
 export const getHistogramColor = (d: number) => {
@@ -33,16 +32,14 @@ export const getHistogramColor = (d: number) => {
 };
 
 export const getDateString = (d: TypeDate) => {
-  if (Object.hasOwn(d.date, 'year')) {
-    const { year, week } = d.date as TypeIDWeek;
-    return `${year}-w${(week + 1).toString().padStart(2, '0')}`;
-  } else {
-    const dd = d.date as Date;
-    const year = dd.getFullYear();
-    const month = (dd.getMonth() + 1).toString().padStart(2, '0');
-    const day = dd.getDate().toString().padStart(2, '0');
+  if (d.date instanceof Date) {
+    const year = d.date.getFullYear();
+    const month = to2DigitString(d.date.getMonth() + 1);
+    const day = to2DigitString(d.date.getDate());
     return `${year}-${month}-${day}`;
   }
+  const { year, week } = d.date;
+  return `${year}-w${to2DigitString(week + 1)}`;
 };
 
 export const getXCentered = (d: TypeDate, x: d3.ScaleBand<string>) =>
@@ -173,12 +170,12 @@ export const drawLatestPrice = (
   chart: d3.Selection<SVGGElement, unknown, HTMLElement, any>,
   x: d3.ScaleBand<string>,
   y: d3.ScaleLinear<number, number, never>,
-  start: TypeDate,
   end: TypeDate,
-  data: TypeKRXPrice,
+  data: TypePrice,
 ) => {
-  const p1: [number, number] = [x(getDateString(start)) ?? 0, y(data.close)];
-  const p2: [number, number] = [(x(getDateString(end)) ?? 0) + x.bandwidth(), y(data.close)];
+  const w = (x(getDateString(end)) ?? 0) + x.bandwidth();
+  const p1: [number, number] = [0, y(data.close)];
+  const p2: [number, number] = [w, y(data.close)];
   const group = chart.append('g').attr('class', 'latest');
   group
     .append('path')
@@ -192,12 +189,12 @@ export const drawLatestChange = (
   chart: d3.Selection<SVGGElement, unknown, HTMLElement, any>,
   x: d3.ScaleBand<string>,
   y: d3.ScaleLinear<number, number, never>,
-  start: TypeDate,
   end: TypeDate,
   data: number,
 ) => {
-  const p1: [number, number] = [x(getDateString(start)) ?? 0, y(data)];
-  const p2: [number, number] = [(x(getDateString(end)) ?? 0) + x.bandwidth(), y(data)];
+  const w = (x(getDateString(end)) ?? 0) + x.bandwidth();
+  const p1: [number, number] = [0, y(data)];
+  const p2: [number, number] = [w, y(data)];
   const group = chart.append('g').attr('class', 'latest');
   group
     .append('path')
@@ -397,7 +394,10 @@ export const addClipPathAsShowWindow = (
 export const getMarginLeft = (data: TypePriceVolume[] | undefined) => {
   if (data && data.length) {
     const size = 8;
-    const maxChar = data.reduce((p, v) => Math.max(p, v.high), -Infinity).toString().length;
+    const minLen = 5;
+    const maxChar = data
+      .reduce((p, v) => Math.max(p, Math.floor(v.high), minLen), -Infinity)
+      .toString().length;
     return (maxChar + Math.floor(maxChar / 3)) * size;
   }
   return 0;
