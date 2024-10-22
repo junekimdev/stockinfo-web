@@ -7,7 +7,6 @@ import {
   initChart,
 } from '../../controllers/chart';
 import {
-  TypeKRXPrice,
   TypeParabolicSAR,
   TypePrice,
   TypePriceBollingerBands,
@@ -21,7 +20,7 @@ const draw = (
   bandData: TypePriceBollingerBands[],
   display: TypePriceDisplay,
   marginLeft: number,
-  latestPriceData?: TypeKRXPrice,
+  latestPriceData?: TypePrice,
 ) => {
   if (!data?.length) return;
   const minData = d3.min(data, (d) => d.low) ?? 0;
@@ -42,7 +41,7 @@ const draw = (
 
   // Draw latest price line
   if (display.LatestPrice && latestPriceData)
-    drawLatestPrice(chart, x, y, data[0], data[data.length - 1], latestPriceData);
+    drawLatestPrice(chart, x, y, data[data.length - 1], latestPriceData);
 
   // Draw Parabolic SAR
   if (display.ParabolicSAR && sarData.length) drawSAR(chart, x, y, sarData);

@@ -15,9 +15,7 @@ const Presenter = (props: { req: TypePriceRequest; marginLeft: number; max?: num
   const chartType: TypeChart = 'heikin-aski-smoothed';
   const { data } = useGetPricesLatest({ code: req.code, type: 'latest' });
   const dataHeikinAshi = useRecoilValue(StatePriceHeikinAshiSmoothed(req));
-  const display = useRecoilValue(
-    StatePriceDisplays({ code: req.code, type: 'heikin-aski-smoothed' }),
-  );
+  const display = useRecoilValue(StatePriceDisplays({ code: req.code, type: chartType }));
 
   const chartTitle = `${req.type} Heikin-Ashi Smoothed`;
   const chartID = `${styles.chart}-${req.code}-${req.type}`;
@@ -27,7 +25,7 @@ const Presenter = (props: { req: TypePriceRequest; marginLeft: number; max?: num
 
   useEffect(() => {
     if (dataHeikinAshi.length) {
-      draw(chartID, dataHeikinAshi.slice(-max), display, marginLeft, data?.prices[0]);
+      draw(chartID, dataHeikinAshi.slice(-max), display, marginLeft, data);
     }
   }, [chartID, marginLeft, max, dataHeikinAshi, display, data]);
 

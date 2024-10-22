@@ -1,13 +1,13 @@
 import * as d3 from 'd3';
 import { drawCandle, drawLatestPrice, initChart } from '../../controllers/chart';
-import { TypeKRXPrice, TypePrice, TypePriceDisplay } from '../../controllers/data/types';
+import { TypePrice, TypePriceDisplay } from '../../controllers/data/types';
 
 const draw = (
   id: string,
   data: TypePrice[],
   display: TypePriceDisplay,
   marginLeft: number,
-  latestPriceData?: TypeKRXPrice,
+  latestPriceData?: TypePrice,
 ) => {
   if (!data?.length) return;
   const minData = d3.min(data, (d) => d.low) ?? 0;
@@ -28,7 +28,7 @@ const draw = (
 
   // Draw latest price line
   if (display.LatestPrice && latestPriceData)
-    drawLatestPrice(chart, x, y, data[0], data[data.length - 1], latestPriceData);
+    drawLatestPrice(chart, x, y, data[data.length - 1], latestPriceData);
 };
 
 export default draw;

@@ -3,15 +3,15 @@ import { PRICES_URL } from '../apiURLs';
 import {
   TypeError,
   TypeIDWeek,
-  TypeKRX,
-  TypeKRXPrice,
   TypeKRXRaw,
-  TypePriceRaw,
   TypePriceRequest,
   TypePriceRequestType,
+  TypePriceVolume,
+  TypePriceVolumeRaw,
   TypeTreemapData,
   TypeTreemapPrice,
 } from '../data/types';
+import { getTimestamp } from '../datetime';
 
 export const useGetPrices = (req: TypePriceRequest) => {
   const { code, type } = req;
@@ -30,17 +30,15 @@ export const useGetPricesLatest = (req: TypePriceRequest) => {
     queryKey: ['prices', code, type],
     queryFn: getPricesLatest,
     enabled: !!code && !!type,
-    staleTime: 60000, // 1 minute
-    placeholderData: { current_datetime: undefined, prices: [] },
+    staleTime: 60000, // 60s
   });
 };
 
-export const useGetPricesSnapshot = () => {
+export const useGetPricesLatestAll = () => {
   return useQuery({
-    queryKey: ['prices', 'snapshot'],
-    queryFn: getPricesSnapshot,
-    staleTime: 60000, // 1 minute
-    // placeholderData: { current_datetime: undefined, treemap: { name: 'KRX', children: [] } },
+    queryKey: ['prices', 'latestAll'],
+    queryFn: getPricesLatestAll,
+    staleTime: 60000, // 60s
   });
 };
 
@@ -64,7 +62,7 @@ const getPrices = async ({ queryKey }: QueryFunctionContext<string[]>) => {
   const base = parseInt(prices[0].base_stock_cnt);
 
   // parse numeric string to number
-  const data: TypePriceRaw[] = prices
+  const data: TypePriceVolumeRaw[] = prices
     .filter((v) => v.open) // This filters out no trading days (e.g. no trading for stock split)
     .reverse() // This makes ascending order
     .map((v) => {
@@ -106,19 +104,29 @@ const getPricesLatest = async ({ queryKey }: QueryFunctionContext<string[]>) => 
   if (typeof data?.current_datetime !== 'string') throw Error(`failed to parce data from ${url}`);
   if (prices.length === 0) throw Error(`failed to parce data from ${url}`);
 
-  const r: TypeKRX = { current_datetime: new Date(data.current_datetime), prices: [] };
+  const r: TypePriceVolume[] = [];
   for (let i = 0; i < prices.length; i++) {
-    const { tdd_clsprc = '0', fluc_rt = '0', mktcap = '0' } = prices[i];
+    const {
+      tdd_opnprc = '0',
+      tdd_hgprc = '0',
+      tdd_lwprc = '0',
+      tdd_clsprc = '0',
+      acc_trdvol = '0',
+    } = prices[i];
+    const date = new Date(data.current_datetime);
+    const open = parseInt(tdd_opnprc.replaceAll(',', ''));
     const close = parseInt(tdd_clsprc.replaceAll(',', ''));
-    const change_percentage = parseFloat(fluc_rt.replaceAll(',', ''));
-    const marketcap = parseInt(mktcap.replaceAll(',', ''));
-    r.prices.push({ close, change_percentage, marketcap } as TypeKRXPrice);
+    const high = parseInt(tdd_hgprc.replaceAll(',', ''));
+    const low = parseInt(tdd_lwprc.replaceAll(',', ''));
+    const volume = parseInt(acc_trdvol.replaceAll(',', ''));
+    r.push({ date, open, close, high, low, volume });
   }
 
-  return r;
+  r.sort((a, b) => getTimestamp(b.date) - getTimestamp(a.date));
+  return r[0];
 };
 
-const getPricesSnapshot = async () => {
+const getPricesLatestAll = async () => {
   const url = `${PRICES_URL}/snapshot`;
   const res = await fetch(url, { method: 'GET' });
 

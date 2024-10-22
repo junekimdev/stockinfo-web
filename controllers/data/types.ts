@@ -52,6 +52,10 @@ export type TypePrice = TypeDate & {
   low: number;
 };
 export type TypePriceVolume = TypePrice & { volume: number };
+export type TypePriceVolumeRaw = TypePriceVolume & {
+  trading_value: number;
+  base_stock_cnt: number;
+};
 export type TypePricePercentChange = TypeDate & { percent_change: number };
 export type TypeParabolicSAR = TypeDate & { sar: number; isUpTrend: boolean };
 export type TypeMovingAvg = TypeDate & { avg: number };
@@ -67,10 +71,6 @@ export type TypeMacdV = TypeDate & { macdV: number; signal: number; histogram: n
 export type TypeAtrp = TypeDate & { atrp: number };
 export type TypeChaikin = TypeDate & { cmf: number; co: number };
 export type TypeStochastic = TypeDate & { fullK: number; fullD: number };
-export type TypePriceRaw = TypePriceVolume & {
-  trading_value: number;
-  base_stock_cnt: number;
-};
 
 export type TypePriceDisplayItem = 'LatestPrice' | 'ParabolicSAR' | 'BollingerBands';
 export type TypeAdxDisplayItem = 'ADX' | 'pDI' | 'nDI' | 'buy' | 'sell' | 'trendConfirm';
@@ -124,8 +124,21 @@ export type TypeStochasticDisplay = {
   trendConfirm: boolean;
 };
 
+export type TypeCompany = {
+  itmsNm: string;
+  srtnCd: string;
+  isinCd: string;
+  mrktCtg: string;
+  crno: string;
+  corpNm: string;
+};
+export type TypeCompanyTab = {
+  uuid: string;
+  company: TypeCompany;
+  mainType: TypePriceRequestType;
+};
+
 export type TypeKRXRaw = { current_datetime?: string; prices?: TypeKRXPriceRaw[] };
-export type TypeKRX = { current_datetime?: Date; prices: TypeKRXPrice[] };
 export type TypeKRXPriceRaw = {
   sect_tp_nm?: string;
   isu_srt_cd?: string;
@@ -145,7 +158,6 @@ export type TypeKRXPriceRaw = {
   mkt_id?: string;
   mkt_nm?: string;
 };
-export type TypeKRXPrice = { close: number; change_percentage: number; marketcap: number };
 export type TypeTreemapData = { current_datetime?: Date; treemap: TypeTreemapPrice };
 export type TypeTreemapPrice = {
   name: string;
@@ -153,20 +165,6 @@ export type TypeTreemapPrice = {
   close?: number;
   change_percentage?: number;
   children?: TypeTreemapPrice[]; // Recursive
-};
-
-export type TypeCompany = {
-  itmsNm: string;
-  srtnCd: string;
-  isinCd: string;
-  mrktCtg: string;
-  crno: string;
-  corpNm: string;
-};
-export type TypeCompanyTab = {
-  uuid: string;
-  company: TypeCompany;
-  mainType: TypePriceRequestType;
 };
 
 export type TypeDartRes = {
