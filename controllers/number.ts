@@ -1,3 +1,5 @@
+export const to2DigitString = (n: number) => n.toString().padStart(2, '0');
+
 export const getNumString = (n?: string) => {
   if (typeof n === 'undefined') return;
 
