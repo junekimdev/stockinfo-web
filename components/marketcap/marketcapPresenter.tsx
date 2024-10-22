@@ -1,11 +1,11 @@
-import { useGetPricesSnapshot } from '../../controllers/net/price';
+import { useGetPricesLatestAll } from '../../controllers/net/price';
 import styles from './marketcap.module.scss';
 import { useDraw } from './marketcapInteractor';
 import Header from './marketcapViewHeader';
 import Loading from './marketcapViewLoading';
 
 const Presenter = () => {
-  const { data } = useGetPricesSnapshot();
+  const { data } = useGetPricesLatestAll();
   const svgID = styles.treemap;
   useDraw(svgID);
 

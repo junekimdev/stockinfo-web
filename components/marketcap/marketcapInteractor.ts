@@ -1,10 +1,10 @@
 import * as d3 from 'd3';
 import { useCallback, useEffect } from 'react';
 import { TypeTreemapPrice } from '../../controllers/data/types';
-import { useGetPricesSnapshot } from '../../controllers/net/price';
+import { useGetPricesLatestAll } from '../../controllers/net/price';
 
 export const useDraw = (svgID: string, max = 100) => {
-  const { data } = useGetPricesSnapshot();
+  const { data } = useGetPricesLatestAll();
 
   useEffect(() => {
     if (!data?.treemap) return;

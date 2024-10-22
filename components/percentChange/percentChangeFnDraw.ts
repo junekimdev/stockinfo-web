@@ -44,7 +44,7 @@ const draw = (
 
   // Draw latest price line
   if (display.LatestPrice && latestChange !== undefined)
-    drawLatestChange(chart, x, y, data[0], data[data.length - 1], latestChange);
+    drawLatestChange(chart, x, y, data[data.length - 1], latestChange);
 };
 
 export default draw;
