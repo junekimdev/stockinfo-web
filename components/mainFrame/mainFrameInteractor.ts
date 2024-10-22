@@ -51,7 +51,7 @@ export const useMoveToTabClick = (tab: TypeCompanyTab) => {
 
   return useCallback(() => {
     setState(tab);
-    router.replace('/chart', '/search');
+    router.replace('/chart');
   }, [tab]);
 };
 
