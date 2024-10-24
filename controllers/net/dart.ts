@@ -9,11 +9,11 @@ import {
   TypeError,
 } from '../data/types';
 
-export const useGetDartCode = (name: string) => {
+export const useGetDartCode = (stockCode: string) => {
   return useQuery({
-    queryKey: ['dart', 'code', name],
+    queryKey: ['dart', 'code', stockCode],
     queryFn: getDartCode,
-    enabled: !!name,
+    enabled: !!stockCode,
     staleTime: Infinity,
     placeholderData: '',
   });
@@ -48,9 +48,9 @@ export const useGetDartStatement = (
 };
 
 const getDartCode = async ({ queryKey }: QueryFunctionContext<string[]>) => {
-  const [_key1, _key2, name] = queryKey;
+  const [_key1, _key2, stockCode] = queryKey;
 
-  const url = `${DART_CODE_URL}/${encodeURIComponent(name)}`;
+  const url = `${DART_CODE_URL}/${stockCode}`;
   const res = await fetch(url, { method: 'GET' });
 
   if (res.status >= 400) {

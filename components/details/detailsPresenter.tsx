@@ -16,7 +16,7 @@ const getData = (res: TypeDartStatementRes | undefined, sj_div: string, account_
 
 const Presenter = () => {
   const { company } = useRecoilValue(StateCurrentTab);
-  const { data: dartCode } = useGetDartCode(company.itmsNm);
+  const { data: dartCode } = useGetDartCode(company.srtnCd);
   const { data: cfs_data } = useGetDartStatement(dartCode ?? '', '11011', 'CFS');
   const { data: fs_data } = useGetDartStatement(dartCode ?? '', '11011', 'OFS');
 
