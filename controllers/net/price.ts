@@ -9,7 +9,6 @@ import {
   TypeKRXRaw,
   TypePriceRequest,
   TypePriceRequestType,
-  TypePriceVolume,
   TypePriceVolumeRaw,
   TypeTreemapData,
   TypeTreemapPrice,
@@ -23,11 +22,10 @@ export const useGetPrices = (req: TypePriceRequest) => {
     queryFn: getPrices,
     enabled: !!code && !!type,
     staleTime: Infinity,
-    placeholderData: [],
   });
 };
 
-export const usePrefetchPricesTabs = () => {
+export const useGetPricesPrefetching = () => {
   const tabs = useRecoilValue(StateCompanyTabs);
   const queryClient = useQueryClient();
 
@@ -89,11 +87,11 @@ const getPrices = async ({ queryKey }: QueryFunctionContext<string[]>) => {
       const base_stock_cnt = parseInt(v.base_stock_cnt);
       const scaler = base_stock_cnt / base;
       const r = {
-        date: t === 'daily' ? new Date(v.date) : ({ year: v.year, week: v.week } as TypeIDWeek),
-        open: Math.round((t === 'daily' ? v.open : parseInt(v.open)) * scaler),
-        close: Math.round((t === 'daily' ? v.close : parseInt(v.close)) * scaler),
-        high: Math.round((t === 'daily' ? v.high : parseInt(v.high)) * scaler),
-        low: Math.round((t === 'daily' ? v.low : parseInt(v.low)) * scaler),
+        date: t === 'weekly' ? ({ year: v.year, week: v.week } as TypeIDWeek) : new Date(v.date),
+        open: Math.round((t === 'weekly' ? parseInt(v.open) : v.open) * scaler),
+        close: Math.round((t === 'weekly' ? parseInt(v.close) : v.close) * scaler),
+        high: Math.round((t === 'weekly' ? parseInt(v.high) : v.high) * scaler),
+        low: Math.round((t === 'weekly' ? parseInt(v.low) : v.low) * scaler),
         volume: parseInt(v.volume),
         trading_value: parseInt(v.trading_value),
         base_stock_cnt,
@@ -124,7 +122,7 @@ const getPricesLatest = async ({ queryKey }: QueryFunctionContext<string[]>) => 
   if (typeof data?.current_datetime !== 'string') throw Error(`failed to parce data from ${url}`);
   if (prices.length === 0) throw Error(`failed to parce data from ${url}`);
 
-  const r: TypePriceVolume[] = [];
+  const r: TypePriceVolumeRaw[] = [];
   for (let i = 0; i < prices.length; i++) {
     const {
       tdd_opnprc = '0',
@@ -132,6 +130,8 @@ const getPricesLatest = async ({ queryKey }: QueryFunctionContext<string[]>) => 
       tdd_lwprc = '0',
       tdd_clsprc = '0',
       acc_trdvol = '0',
+      acc_trdval = '0',
+      list_shrs = '0',
     } = prices[i];
     const date = new Date(data.current_datetime);
     const open = parseInt(tdd_opnprc.replaceAll(',', ''));
@@ -139,7 +139,9 @@ const getPricesLatest = async ({ queryKey }: QueryFunctionContext<string[]>) => 
     const high = parseInt(tdd_hgprc.replaceAll(',', ''));
     const low = parseInt(tdd_lwprc.replaceAll(',', ''));
     const volume = parseInt(acc_trdvol.replaceAll(',', ''));
-    r.push({ date, open, close, high, low, volume });
+    const trading_value = parseInt(acc_trdval.replaceAll(',', ''));
+    const base_stock_cnt = parseInt(list_shrs.replaceAll(',', ''));
+    r.push({ date, open, close, high, low, volume, trading_value, base_stock_cnt });
   }
 
   r.sort((a, b) => getTimestamp(b.date) - getTimestamp(a.date));
