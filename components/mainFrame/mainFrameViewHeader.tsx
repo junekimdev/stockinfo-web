@@ -19,8 +19,10 @@ const View = () => {
     <header className={styles.header}>
       <div className={styles.companyInfo}>
         <h1>{company.itmsNm}</h1>
-        <h3>{company.srtnCd}</h3>
-        <h3>{company.mrktCtg}</h3>
+        <div className={styles.companyInfoSub}>
+          <h3>{company.mrktCtg}</h3>
+          <h3>{company.srtnCd}</h3>
+        </div>
         <h3>{mainType}</h3>
         <LatestPrice code={company.srtnCd} />
       </div>
