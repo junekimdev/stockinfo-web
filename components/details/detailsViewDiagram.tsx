@@ -1,7 +1,7 @@
 import { useRecoilValue } from 'recoil';
 import { StateCurrentTab } from '../../controllers/data/states';
 import { TypeDartStatementItem, TypePriceRequest } from '../../controllers/data/types';
-import { useGetPrices } from '../../controllers/net/price';
+import { useGetPricesLatest } from '../../controllers/net/price';
 import { shortenNumStringMillion } from '../../controllers/number';
 import styles from './details.module.scss';
 
@@ -17,9 +17,8 @@ const View = (props: {
   const { equity, netIncome, consolidated } = props;
 
   const { company } = useRecoilValue(StateCurrentTab);
-  const dailyReq: TypePriceRequest = { code: company.srtnCd, type: 'daily' };
-  const prices = useGetPrices(dailyReq);
-  const latestPrice = prices.data?.[prices.data.length - 1];
+  const req: TypePriceRequest = { code: company.srtnCd, type: 'latest' };
+  const { data: latestPrice } = useGetPricesLatest(req);
   const cap = (latestPrice?.close ?? 0) * (latestPrice?.base_stock_cnt ?? 0);
   const net = Number.parseInt(netIncome?.thstrm_amount ?? '0');
   const equ = Number.parseInt(equity?.thstrm_amount ?? '0');

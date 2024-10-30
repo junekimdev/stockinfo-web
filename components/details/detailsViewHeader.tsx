@@ -3,15 +3,14 @@ import { DART_VIEWER_LINK } from '../../controllers/apiURLs';
 import { getDateString } from '../../controllers/chart';
 import { StateCurrentTab } from '../../controllers/data/states';
 import { TypePriceRequest } from '../../controllers/data/types';
-import { useGetPrices } from '../../controllers/net/price';
+import { useGetPricesLatest } from '../../controllers/net/price';
 import styles from './details.module.scss';
 
 const View = (props: { reportCode?: string }) => {
   const { reportCode } = props;
   const { company } = useRecoilValue(StateCurrentTab);
-  const dailyReq: TypePriceRequest = { code: company.srtnCd, type: 'daily' };
-  const prices = useGetPrices(dailyReq);
-  const latestPrice = prices.data?.[prices.data.length - 1];
+  const req: TypePriceRequest = { code: company.srtnCd, type: 'latest' };
+  const { data: latestPrice } = useGetPricesLatest(req);
 
   return (
     <header className={styles.header}>
@@ -32,7 +31,7 @@ const View = (props: { reportCode?: string }) => {
           <span>{latestPrice && getDateString(latestPrice)}</span>
         </div>
         <div className={styles.headerItem}>
-          <h5>Closed At :</h5>
+          <h5>Latest Price :</h5>
           <span>{latestPrice?.close.toLocaleString()}</span>
         </div>
         <div className={styles.headerItem}>
