@@ -8,7 +8,8 @@ export const DART_CODE_URL = DART_URL + '/code';
 export const DART_INDEX_URL = DART_URL + '/index';
 export const DART_STATEMENT_URL = DART_URL + '/statement';
 
-export const DART_VIEWER_LINK = 'https://dart.fss.or.kr/dsaf001/main.do?rcpNo=';
+export const DART_VIEWER_LINK =
+  'https://dart.fss.or.kr/dsab007/main.do?autoSearch=Y&option=corp&textCrpNm=';
 
 export const DIFF_NATION_URL = process.env.NEXT_PUBLIC_DIFF_NATION_URL ?? 'http://localhost:3000';
 
