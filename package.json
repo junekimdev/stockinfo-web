@@ -17,7 +17,6 @@
     "@tanstack/react-query": "^5.65.1",
     "d3": "^7.9.0",
     "jotai": "^2.11.1",
-    "modern-normalize": "^3.0.1",
     "next": "^15.1.6",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
