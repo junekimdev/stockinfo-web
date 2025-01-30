@@ -1,4 +1,4 @@
-import { useRecoilValue } from 'recoil';
+import { useAtomValue } from 'jotai';
 import { DART_VIEWER_LINK } from '../../controllers/apiURLs';
 import { getDateString } from '../../controllers/chart';
 import { StateCurrentTab } from '../../controllers/data/states';
@@ -6,9 +6,8 @@ import { TypePriceRequest } from '../../controllers/data/types';
 import { useGetPricesLatest } from '../../controllers/net/price';
 import styles from './details.module.scss';
 
-const View = (props: { reportCode?: string }) => {
-  const { reportCode } = props;
-  const { company } = useRecoilValue(StateCurrentTab);
+const View = () => {
+  const { company } = useAtomValue(StateCurrentTab);
   const req: TypePriceRequest = { code: company.srtnCd, type: 'latest' };
   const { data: latestPrice } = useGetPricesLatest(req);
 
@@ -17,8 +16,9 @@ const View = (props: { reportCode?: string }) => {
       <div className={styles.headerTitle}>
         <h2 className={styles.headerName}>{company.itmsNm}</h2>
         <a
-          href={DART_VIEWER_LINK + reportCode}
+          href={DART_VIEWER_LINK + company.srtnCd}
           className={styles.toDart}
+          title="Link to Dart"
           target="_blank"
           rel="noreferrer noopener"
         >

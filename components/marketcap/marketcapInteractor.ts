@@ -82,7 +82,7 @@ export const useDraw = (svgID: string, max = 100) => {
       .attr('y', (_d, i) => `${i + 1.2}em`)
       .attr('fill-opacity', (_d, i) => (i ? 0.5 : null))
       .text((d) => d);
-  }, [svgID, data?.treemap]);
+  }, [max, svgID, data?.treemap]);
 };
 
 export const useDownloadClick = (svgID: string, filename: string) => {

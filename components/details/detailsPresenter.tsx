@@ -1,4 +1,4 @@
-import { useRecoilValue } from 'recoil';
+import { useAtomValue } from 'jotai';
 import { useToggleDetails } from '../../controllers/data/hooks';
 import { StateCurrentTab } from '../../controllers/data/states';
 import { TypeDartStatementRes } from '../../controllers/data/types';
@@ -15,7 +15,7 @@ const getData = (res: TypeDartStatementRes | undefined, sj_div: string, account_
 };
 
 const Presenter = () => {
-  const { company } = useRecoilValue(StateCurrentTab);
+  const { company } = useAtomValue(StateCurrentTab);
   const { data: dartCode } = useGetDartCode(company.srtnCd);
   const { data: cfs_data } = useGetDartStatement(dartCode ?? '', '11011', 'CFS');
   const { data: fs_data } = useGetDartStatement(dartCode ?? '', '11011', 'OFS');
@@ -91,7 +91,7 @@ const Presenter = () => {
       <div className={styles.details}>
         {fs_data?.list?.length ? (
           <>
-            <Header reportCode={fs_assets?.rcept_no} />
+            <Header />
             {cfs_data?.list?.length ? (
               <Diagram
                 equity={cfs_equityCI}
