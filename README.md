@@ -84,7 +84,7 @@ NEXT_PUBLIC_API_URL=http://api.domain.com
 - HTTP interface: fetch API (part of WHATWG Web Standard)
 - JavaScript Testing Framework: Jest
 - React Testing Library: @testing-library/react
-- Browser style normalization script: Modern-normalize
+- Browser style normalization script: Normalize
 - Stylesheet preprocessor: SCSS
 - Stylesheet postprocessor: Postcss (included in NextJS)
 - Postcss plugin: Autoprefixer (included in NextJS)
