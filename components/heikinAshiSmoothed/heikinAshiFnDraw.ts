@@ -1,11 +1,12 @@
 import * as d3 from 'd3';
 import { drawCandle, drawLatestPrice, initChart } from '../../controllers/chart';
-import { TypePrice, TypePriceDisplay } from '../../controllers/data/types';
+import { TypePrice } from '../../controllers/data/types';
+import { HeikinAshiSmoothedTypeDisplay } from './heikinAshiType';
 
 const draw = (
   id: string,
   data: TypePrice[],
-  display: TypePriceDisplay,
+  display: HeikinAshiSmoothedTypeDisplay,
   marginLeft: number,
   latestPriceData?: TypePrice,
 ) => {

@@ -6,19 +6,15 @@ import {
   drawSAR,
   initChart,
 } from '../../controllers/chart';
-import {
-  TypeParabolicSAR,
-  TypePrice,
-  TypePriceBollingerBands,
-  TypePriceDisplay,
-} from '../../controllers/data/types';
+import { TypeParabolicSAR, TypePrice, TypePriceBollingerBands } from '../../controllers/data/types';
+import { HeikinAshiTypeDisplay } from './heikinAshiType';
 
 const draw = (
   id: string,
   data: TypePrice[],
   sarData: TypeParabolicSAR[],
   bandData: TypePriceBollingerBands[],
-  display: TypePriceDisplay,
+  display: HeikinAshiTypeDisplay,
   marginLeft: number,
   latestPriceData?: TypePrice,
 ) => {

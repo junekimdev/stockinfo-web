@@ -1,16 +1,11 @@
 import * as d3 from 'd3';
-import { ChangeEvent, useCallback } from 'react';
-import { useSetRecoilState } from 'recoil';
-import { StatePriceDisplays } from './data/states';
 import {
-  TypeChart,
   TypeChartData,
   TypeDate,
   TypeMovingAvg,
   TypeParabolicSAR,
   TypePrice,
   TypePriceBollingerBands,
-  TypePriceDisplayItem,
   TypePriceVolume,
   TypeRectCoordi,
 } from './data/types';
@@ -400,15 +395,4 @@ export const getMarginLeft = (data: TypePriceVolume[] | undefined) => {
     return Math.max(minLen, len) * size;
   }
   return 0;
-};
-
-export const useCheckboxChange = (code: string, type: TypeChart, what: TypePriceDisplayItem) => {
-  const setState = useSetRecoilState(StatePriceDisplays({ code, type }));
-
-  return useCallback(
-    (e: ChangeEvent<HTMLInputElement>) => {
-      setState((prev) => ({ ...prev, [what]: e.currentTarget.checked }));
-    },
-    [code, type, what],
-  );
 };

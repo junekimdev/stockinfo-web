@@ -1,4 +1,4 @@
-import { useRecoilValue } from 'recoil';
+import { useAtomValue } from 'jotai';
 import { StateCurrentTab } from '../../controllers/data/states';
 import { TypeDartStatementItem, TypePriceRequest } from '../../controllers/data/types';
 import { useGetPricesLatest } from '../../controllers/net/price';
@@ -16,7 +16,7 @@ const View = (props: {
 }) => {
   const { equity, netIncome, consolidated } = props;
 
-  const { company } = useRecoilValue(StateCurrentTab);
+  const { company } = useAtomValue(StateCurrentTab);
   const req: TypePriceRequest = { code: company.srtnCd, type: 'latest' };
   const { data: latestPrice } = useGetPricesLatest(req);
   const cap = (latestPrice?.close ?? 0) * (latestPrice?.base_stock_cnt ?? 0);
