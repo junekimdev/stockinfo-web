@@ -2,20 +2,11 @@ import { QueryFunctionContext, useQuery, useQueryClient } from '@tanstack/react-
 import { useAtomValue } from 'jotai';
 import { useEffect } from 'react';
 import { PRICES_URL } from '../apiURLs';
-import { StateCompanyTabs } from '../data/states';
-import {
-  TypeError,
-  TypeIDWeek,
-  TypeKRXRaw,
-  TypePriceRequest,
-  TypePriceRequestType,
-  TypePriceVolumeRaw,
-  TypeTreemapData,
-  TypeTreemapPrice,
-} from '../data/types';
+import * as gState from '../data/states';
+import * as gType from '../data/types';
 import { getTimestamp } from '../datetime';
 
-export const useGetPrices = (req: TypePriceRequest) => {
+export const useGetPrices = (req: gType.PriceRequest) => {
   const { code, type } = req;
   return useQuery({
     queryKey: ['prices', code, type],
@@ -26,7 +17,7 @@ export const useGetPrices = (req: TypePriceRequest) => {
 };
 
 export const useGetPricesPrefetching = () => {
-  const tabs = useAtomValue(StateCompanyTabs);
+  const tabs = useAtomValue(gState.companyTabs);
   const queryClient = useQueryClient();
 
   useEffect(() => {
@@ -42,7 +33,7 @@ export const useGetPricesPrefetching = () => {
   }, [tabs, queryClient]);
 };
 
-export const useGetPricesLatest = (req: TypePriceRequest) => {
+export const useGetPricesLatest = (req: gType.PriceRequest) => {
   const { code, type } = req;
   return useQuery({
     queryKey: ['prices', code, type],
@@ -62,13 +53,13 @@ export const useGetPricesLatestAll = () => {
 
 const getPrices = async ({ queryKey }: QueryFunctionContext<string[]>) => {
   const [_key, code, _t] = queryKey;
-  const t = _t as TypePriceRequestType;
+  const t = _t as gType.PriceRequestType;
 
   const url = `${PRICES_URL}/${code}/${t}`;
   const res = await fetch(url, { method: 'GET' });
 
   if (res.status >= 400) {
-    const err: TypeError = await res.json();
+    const err: gType.Error = await res.json();
     throw Error(err.message);
   }
 
@@ -80,14 +71,14 @@ const getPrices = async ({ queryKey }: QueryFunctionContext<string[]>) => {
   const base = parseInt(prices[0].base_stock_cnt);
 
   // parse numeric string to number
-  const data: TypePriceVolumeRaw[] = prices
+  const data: gType.PriceVolumeRaw[] = prices
     .filter((v) => v.open) // This filters out no trading days (e.g. no trading for stock split)
     .reverse() // This makes ascending order
     .map((v) => {
       const base_stock_cnt = parseInt(v.base_stock_cnt);
       const scaler = base_stock_cnt / base;
       const r = {
-        date: t === 'weekly' ? ({ year: v.year, week: v.week } as TypeIDWeek) : new Date(v.date),
+        date: t === 'weekly' ? ({ year: v.year, week: v.week } as gType.IDWeek) : new Date(v.date),
         open: Math.round((t === 'weekly' ? parseInt(v.open) : v.open) * scaler),
         close: Math.round((t === 'weekly' ? parseInt(v.close) : v.close) * scaler),
         high: Math.round((t === 'weekly' ? parseInt(v.high) : v.high) * scaler),
@@ -104,17 +95,17 @@ const getPrices = async ({ queryKey }: QueryFunctionContext<string[]>) => {
 
 const getPricesLatest = async ({ queryKey }: QueryFunctionContext<string[]>) => {
   const [_key, code, _t] = queryKey;
-  const t = _t as TypePriceRequestType;
+  const t = _t as gType.PriceRequestType;
 
   const url = `${PRICES_URL}/${code}/${t}`;
   const res = await fetch(url, { method: 'GET' });
 
   if (res.status >= 400) {
-    const err: TypeError = await res.json();
+    const err: gType.Error = await res.json();
     throw Error(err.message);
   }
 
-  const data: TypeKRXRaw = await res.json();
+  const data: gType.KRXRaw = await res.json();
   const prices = data?.prices ?? [];
 
   // Validate data
@@ -122,7 +113,7 @@ const getPricesLatest = async ({ queryKey }: QueryFunctionContext<string[]>) => 
   if (typeof data?.current_datetime !== 'string') throw Error(`failed to parce data from ${url}`);
   if (prices.length === 0) throw Error(`failed to parce data from ${url}`);
 
-  const r: TypePriceVolumeRaw[] = [];
+  const r: gType.PriceVolumeRaw[] = [];
   for (let i = 0; i < prices.length; i++) {
     const {
       tdd_opnprc = '0',
@@ -153,11 +144,11 @@ const getPricesLatestAll = async () => {
   const res = await fetch(url, { method: 'GET' });
 
   if (res.status >= 400) {
-    const err: TypeError = await res.json();
+    const err: gType.Error = await res.json();
     throw Error(err.message);
   }
 
-  const data: TypeKRXRaw = await res.json();
+  const data: gType.KRXRaw = await res.json();
   const prices = data?.prices ?? [];
 
   // Validate data
@@ -165,7 +156,7 @@ const getPricesLatestAll = async () => {
   if (typeof data?.current_datetime !== 'string') throw Error(`failed to parce data from ${url}`);
   if (prices.length === 0) throw Error(`failed to parce data from ${url}`);
 
-  const r: TypeTreemapData = {
+  const r: gType.TreemapData = {
     current_datetime: new Date(data.current_datetime),
     treemap: { name: 'KRX', children: [] },
   };
@@ -174,7 +165,7 @@ const getPricesLatestAll = async () => {
     const close = parseInt(tdd_clsprc.replaceAll(',', ''));
     const change_percentage = parseFloat(fluc_rt.replaceAll(',', ''));
     const marketcap = parseInt(mktcap.replaceAll(',', ''));
-    const p: TypeTreemapPrice = {
+    const p: gType.TreemapPrice = {
       name: isu_abbrv,
       value: marketcap,
       close,

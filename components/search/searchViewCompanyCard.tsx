@@ -1,8 +1,8 @@
-import { TypeCompany } from '../../controllers/data/types';
+import * as gType from '../../controllers/data/types';
 import styles from './search.module.scss';
 import { useCompanyClick } from './searchInteractor';
 
-const View = (props: { data: TypeCompany; uuid: string }) => {
+const View = (props: { data: gType.Company; uuid: string }) => {
   const { data, uuid } = props;
   const { itmsNm, srtnCd, mrktCtg, corpNm } = data;
   const onCompanyClick = useCompanyClick(uuid, data);

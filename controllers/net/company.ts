@@ -1,13 +1,13 @@
 import { QueryFunctionContext, useQuery } from '@tanstack/react-query';
 import { useAtomValue } from 'jotai';
 import { COMPANIES_URL } from '../apiURLs';
-import { StateSearchInput } from '../data/states';
-import { TypeCompany, TypeError } from '../data/types';
+import * as gState from '../data/states';
+import * as gType from '../data/types';
 import { useDebounce } from '../debounce';
 
 export const useGetCompanies = () => {
   // use debounced value so that everytime the user types won't fire fetching
-  const search_word = useDebounce(useAtomValue(StateSearchInput), 300);
+  const search_word = useDebounce(useAtomValue(gState.searchInput), 300);
 
   return useQuery({
     queryKey: ['company', search_word],
@@ -29,11 +29,11 @@ const getCompanies = async ({ queryKey }: QueryFunctionContext<string[]>) => {
   }
 
   if (res.status >= 400) {
-    const err: TypeError = await res.json();
+    const err: gType.Error = await res.json();
     throw Error(err.message);
   }
 
-  const data: TypeCompany[] = await res.json();
+  const data: gType.Company[] = await res.json();
 
   return data;
 };

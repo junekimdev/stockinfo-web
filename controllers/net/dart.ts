@@ -1,13 +1,6 @@
 import { QueryFunctionContext, useQuery } from '@tanstack/react-query';
 import { DART_CODE_URL, DART_INDEX_URL, DART_STATEMENT_URL } from '../apiURLs';
-import {
-  TypeDartIndexCode,
-  TypeDartReportCode,
-  TypeDartRes,
-  TypeDartStatementRes,
-  TypeDartStatementType,
-  TypeError,
-} from '../data/types';
+import * as gType from '../data/types';
 
 export const useGetDartCode = (stockCode: string) => {
   return useQuery({
@@ -21,8 +14,8 @@ export const useGetDartCode = (stockCode: string) => {
 
 export const useGetDartIndex = (
   dartCode: string,
-  reportCode: TypeDartReportCode,
-  indexCode: TypeDartIndexCode,
+  reportCode: gType.DartReportCode,
+  indexCode: gType.DartIndexCode,
 ) => {
   return useQuery({
     queryKey: ['dart', 'index', dartCode, reportCode, indexCode],
@@ -35,8 +28,8 @@ export const useGetDartIndex = (
 
 export const useGetDartStatement = (
   dartCode: string,
-  reportCode: TypeDartReportCode,
-  statementCode: TypeDartStatementType,
+  reportCode: gType.DartReportCode,
+  statementCode: gType.DartStatementType,
 ) => {
   return useQuery({
     queryKey: ['dart', 'statement', dartCode, reportCode, statementCode],
@@ -54,7 +47,7 @@ const getDartCode = async ({ queryKey }: QueryFunctionContext<string[]>) => {
   const res = await fetch(url, { method: 'GET' });
 
   if (res.status >= 400) {
-    const err: TypeError = await res.json();
+    const err: gType.Error = await res.json();
     throw Error(err.message);
   }
 
@@ -70,11 +63,11 @@ const getDartIndex = async ({ queryKey }: QueryFunctionContext<string[]>) => {
   const res = await fetch(url, { method: 'GET' });
 
   if (res.status >= 400) {
-    const err: TypeError = await res.json();
+    const err: gType.Error = await res.json();
     throw Error(err.message);
   }
 
-  const data: TypeDartRes = await res.json();
+  const data: gType.DartRes = await res.json();
 
   return data;
 };
@@ -86,11 +79,11 @@ const getDartStatement = async ({ queryKey }: QueryFunctionContext<string[]>) =>
   const res = await fetch(url, { method: 'GET' });
 
   if (res.status >= 400) {
-    const err: TypeError = await res.json();
+    const err: gType.Error = await res.json();
     throw Error(err.message);
   }
 
-  const data: TypeDartStatementRes = await res.json();
+  const data: gType.DartStatementRes = await res.json();
 
   return data;
 };

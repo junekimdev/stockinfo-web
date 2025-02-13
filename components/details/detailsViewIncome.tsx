@@ -1,4 +1,4 @@
-import { TypeDartStatementItem } from '../../controllers/data/types';
+import * as gType from '../../controllers/data/types';
 import { shortenNumStringMillion } from '../../controllers/number';
 import styles from './details.module.scss';
 
@@ -9,10 +9,10 @@ const getOperatingIncomeRatio = (operatingIncome?: string, revenue?: string) => 
 };
 
 const View = (props: {
-  revenue?: TypeDartStatementItem;
-  operatingIncome?: TypeDartStatementItem;
-  netIncome?: TypeDartStatementItem;
-  comprehensiveIncome?: TypeDartStatementItem;
+  revenue?: gType.DartStatementItem;
+  operatingIncome?: gType.DartStatementItem;
+  netIncome?: gType.DartStatementItem;
+  comprehensiveIncome?: gType.DartStatementItem;
   consolidated?: boolean;
 }) => {
   const { revenue, operatingIncome, netIncome, comprehensiveIncome, consolidated = false } = props;

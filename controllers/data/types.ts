@@ -1,11 +1,11 @@
-export type TypeError = { code: number; message: string };
-export type TypeRectCoordi = { x: number; y: number; w: number; h: number };
+export type Error = { code: number; message: string };
+export type RectCoordi = { x: number; y: number; w: number; h: number };
 
-export type TypePriceRequestType = 'daily' | 'weekly' | 'latest';
-export type TypeAvgMethod = 'simple' | 'exponential' | 'weighted';
-export type TypePriceValue = 'close' | 'open' | 'high' | 'low';
-export type TypePriceVolumeValue = TypePriceValue | 'volume';
-export type TypeChart =
+export type PriceRequestType = 'daily' | 'weekly' | 'latest';
+export type AvgMethod = 'simple' | 'exponential' | 'weighted';
+export type PriceValue = 'close' | 'open' | 'high' | 'low';
+export type PriceVolumeValue = PriceValue | 'volume';
+export type Chart =
   | 'price'
   | 'mini-price'
   | 'volume'
@@ -20,57 +20,57 @@ export type TypeChart =
   | 'co'
   | 'cmf'
   | 'so';
-export type TypeDartReportCode = '11011' | '11012' | '11013' | '11014';
-export type TypeDartIndexCode = 'M210000' | 'M220000' | 'M230000' | 'M240000';
-export type TypeDartStatementType = 'OFS' | 'CFS';
+export type DartReportCode = '11011' | '11012' | '11013' | '11014';
+export type DartIndexCode = 'M210000' | 'M220000' | 'M230000' | 'M240000';
+export type DartStatementType = 'OFS' | 'CFS';
 
-export type TypeIDWeek = { year: number; week: number };
-export type TypeDate = { date: Date | TypeIDWeek };
-export type TypePriceRequest = { code: string; type: TypePriceRequestType };
-export type TypeIDPriceMA = TypePriceRequest & { method: TypeAvgMethod; period: number };
+export type IDWeek = { year: number; week: number };
+export type MyDate = { date: Date | IDWeek };
+export type PriceRequest = { code: string; type: PriceRequestType };
+export type IDPriceMA = PriceRequest & { method: AvgMethod; period: number };
 
-export type TypeChartData =
-  | TypePrice
-  | TypePriceVolume
-  | TypePricePercentChange
-  | TypeParabolicSAR
-  | TypeMovingAvg
-  | TypePriceBollingerBands
-  | TypeAdx
-  | TypeRsi
-  | TypeMacd
-  | TypeMacdV
-  | TypeAtrp
-  | TypeChaikin
-  | TypeStochastic;
-export type TypePrice = TypeDate & {
+export type ChartData =
+  | Price
+  | PriceVolume
+  | PricePercentChange
+  | ParabolicSAR
+  | MovingAvg
+  | PriceBollingerBands
+  | Adx
+  | Rsi
+  | Macd
+  | MacdV
+  | Atrp
+  | Chaikin
+  | Stochastic;
+export type Price = MyDate & {
   open: number;
   close: number;
   high: number;
   low: number;
 };
-export type TypePriceVolume = TypePrice & { volume: number };
-export type TypePriceVolumeRaw = TypePriceVolume & {
+export type PriceVolume = Price & { volume: number };
+export type PriceVolumeRaw = PriceVolume & {
   trading_value: number;
   base_stock_cnt: number;
 };
-export type TypePricePercentChange = TypeDate & { percent_change: number };
-export type TypeParabolicSAR = TypeDate & { sar: number; isUpTrend: boolean; distance: number };
-export type TypeMovingAvg = TypeDate & { avg: number };
-export type TypePriceBollingerBands = TypeDate & {
+export type PricePercentChange = MyDate & { percent_change: number };
+export type ParabolicSAR = MyDate & { sar: number; isUpTrend: boolean; distance: number };
+export type MovingAvg = MyDate & { avg: number };
+export type PriceBollingerBands = MyDate & {
   upper: number;
   middle: number;
   lower: number;
 };
-export type TypeAdx = TypeDate & { posDI: number; negDI: number; adx: number };
-export type TypeRsi = TypeDate & { rsi: number };
-export type TypeMacd = TypeDate & { macd: number; signal: number; histogram: number };
-export type TypeMacdV = TypeDate & { macdV: number; signal: number; histogram: number };
-export type TypeAtrp = TypeDate & { atrp: number };
-export type TypeChaikin = TypeDate & { cmf: number; co: number };
-export type TypeStochastic = TypeDate & { fullK: number; fullD: number };
+export type Adx = MyDate & { posDI: number; negDI: number; adx: number };
+export type Rsi = MyDate & { rsi: number };
+export type Macd = MyDate & { macd: number; signal: number; histogram: number };
+export type MacdV = MyDate & { macdV: number; signal: number; histogram: number };
+export type Atrp = MyDate & { atrp: number };
+export type Chaikin = MyDate & { cmf: number; co: number };
+export type Stochastic = MyDate & { fullK: number; fullD: number };
 
-export type TypeCompany = {
+export type Company = {
   itmsNm: string;
   srtnCd: string;
   isinCd: string;
@@ -78,14 +78,14 @@ export type TypeCompany = {
   crno: string;
   corpNm: string;
 };
-export type TypeCompanyTab = {
+export type CompanyTab = {
   uuid: string;
-  company: TypeCompany;
-  mainType: TypePriceRequestType;
+  company: Company;
+  mainType: PriceRequestType;
 };
 
-export type TypeKRXRaw = { current_datetime?: string; prices?: TypeKRXPriceRaw[] };
-export type TypeKRXPriceRaw = {
+export type KRXRaw = { current_datetime?: string; prices?: KRXPriceRaw[] };
+export type KRXPriceRaw = {
   sect_tp_nm?: string;
   isu_srt_cd?: string;
   isu_cd?: string;
@@ -104,21 +104,21 @@ export type TypeKRXPriceRaw = {
   mkt_id?: string;
   mkt_nm?: string;
 };
-export type TypeTreemapData = { current_datetime?: Date; treemap: TypeTreemapPrice };
-export type TypeTreemapPrice = {
+export type TreemapData = { current_datetime?: Date; treemap: TreemapPrice };
+export type TreemapPrice = {
   name: string;
   value?: number; // value === market cap
   close?: number;
   change_percentage?: number;
-  children?: TypeTreemapPrice[]; // Recursive
+  children?: TreemapPrice[]; // Recursive
 };
 
-export type TypeDartRes = {
+export type DartRes = {
   status: string;
   message: string;
-  list?: TypeDartIndexItem[];
+  list?: DartIndexItem[];
 };
-export type TypeDartIndexItem = {
+export type DartIndexItem = {
   bsns_year: string;
   corp_code: string;
   stock_code: string;
@@ -129,12 +129,12 @@ export type TypeDartIndexItem = {
   idx_nm: string;
   idx_val?: string;
 };
-export type TypeDartStatementRes = {
+export type DartStatementRes = {
   status: string;
   message: string;
-  list?: TypeDartStatementItem[];
+  list?: DartStatementItem[];
 };
-export type TypeDartStatementItem = {
+export type DartStatementItem = {
   rcept_no: string;
   reprt_code: string;
   bsns_year: string;

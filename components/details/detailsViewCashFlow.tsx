@@ -1,11 +1,11 @@
-import { TypeDartStatementItem } from '../../controllers/data/types';
+import * as gType from '../../controllers/data/types';
 import { shortenNumStringMillion } from '../../controllers/number';
 import styles from './details.module.scss';
 
 const View = (props: {
-  cashflowOperating?: TypeDartStatementItem;
-  cashflowInvesting?: TypeDartStatementItem;
-  cashflowFinancing?: TypeDartStatementItem;
+  cashflowOperating?: gType.DartStatementItem;
+  cashflowInvesting?: gType.DartStatementItem;
+  cashflowFinancing?: gType.DartStatementItem;
   consolidated?: boolean;
 }) => {
   const { cashflowOperating, cashflowInvesting, cashflowFinancing, consolidated = false } = props;
