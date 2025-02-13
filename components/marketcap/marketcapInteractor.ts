@@ -1,6 +1,6 @@
 import * as d3 from 'd3';
 import { useCallback, useEffect } from 'react';
-import { TypeTreemapPrice } from '../../controllers/data/types';
+import * as gType from '../../controllers/data/types';
 import { useGetPricesLatestAll } from '../../controllers/net/price';
 
 export const useDraw = (svgID: string, max = 100) => {
@@ -34,7 +34,7 @@ export const useDraw = (svgID: string, max = 100) => {
       .sort((a, b) => (b.value ?? 0) - (a.value ?? 0));
 
     const root = d3
-      .treemap<TypeTreemapPrice>()
+      .treemap<gType.TreemapPrice>()
       .tile(d3.treemapSquarify)
       .size([width, height])
       .padding(1)

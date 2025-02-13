@@ -1,14 +1,14 @@
 import { useAtomValue } from 'jotai';
 import { DART_VIEWER_LINK } from '../../controllers/apiURLs';
 import { getDateString } from '../../controllers/chart';
-import { StateCurrentTab } from '../../controllers/data/states';
-import { TypePriceRequest } from '../../controllers/data/types';
+import * as gState from '../../controllers/data/states';
+import * as gType from '../../controllers/data/types';
 import { useGetPricesLatest } from '../../controllers/net/price';
 import styles from './details.module.scss';
 
 const View = () => {
-  const { company } = useAtomValue(StateCurrentTab);
-  const req: TypePriceRequest = { code: company.srtnCd, type: 'latest' };
+  const { company } = useAtomValue(gState.currentTab);
+  const req: gType.PriceRequest = { code: company.srtnCd, type: 'latest' };
   const { data: latestPrice } = useGetPricesLatest(req);
 
   return (

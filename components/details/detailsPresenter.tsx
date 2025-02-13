@@ -1,7 +1,7 @@
 import { useAtomValue } from 'jotai';
 import { useToggleDetails } from '../../controllers/data/hooks';
-import { StateCurrentTab } from '../../controllers/data/states';
-import { TypeDartStatementRes } from '../../controllers/data/types';
+import * as gState from '../../controllers/data/states';
+import * as gType from '../../controllers/data/types';
 import { useGetDartCode, useGetDartStatement } from '../../controllers/net/dart';
 import styles from './details.module.scss';
 import CashFlow from './detailsViewCashFlow';
@@ -10,12 +10,12 @@ import Header from './detailsViewHeader';
 import Income from './detailsViewIncome';
 import SoFP from './detailsViewSoFP';
 
-const getData = (res: TypeDartStatementRes | undefined, sj_div: string, account_id: string) => {
+const getData = (res: gType.DartStatementRes | undefined, sj_div: string, account_id: string) => {
   return res?.list?.filter((v) => v.sj_div === sj_div && v.account_id === account_id)[0];
 };
 
 const Presenter = () => {
-  const { company } = useAtomValue(StateCurrentTab);
+  const { company } = useAtomValue(gState.currentTab);
   const { data: dartCode } = useGetDartCode(company.srtnCd);
   const { data: cfs_data } = useGetDartStatement(dartCode ?? '', '11011', 'CFS');
   const { data: fs_data } = useGetDartStatement(dartCode ?? '', '11011', 'OFS');

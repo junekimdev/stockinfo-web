@@ -1,6 +1,6 @@
 import { useAtomValue } from 'jotai';
-import { StateCurrentTab } from '../../controllers/data/states';
-import { TypeDartStatementItem, TypePriceRequest } from '../../controllers/data/types';
+import * as gState from '../../controllers/data/states';
+import * as gType from '../../controllers/data/types';
 import { useGetPricesLatest } from '../../controllers/net/price';
 import { shortenNumStringMillion } from '../../controllers/number';
 import styles from './details.module.scss';
@@ -10,14 +10,14 @@ const getRatioString = (n: number) => {
 };
 
 const View = (props: {
-  equity?: TypeDartStatementItem;
-  netIncome?: TypeDartStatementItem;
+  equity?: gType.DartStatementItem;
+  netIncome?: gType.DartStatementItem;
   consolidated?: boolean;
 }) => {
   const { equity, netIncome, consolidated } = props;
 
-  const { company } = useAtomValue(StateCurrentTab);
-  const req: TypePriceRequest = { code: company.srtnCd, type: 'latest' };
+  const { company } = useAtomValue(gState.currentTab);
+  const req: gType.PriceRequest = { code: company.srtnCd, type: 'latest' };
   const { data: latestPrice } = useGetPricesLatest(req);
   const cap = (latestPrice?.close ?? 0) * (latestPrice?.base_stock_cnt ?? 0);
   const net = Number.parseInt(netIncome?.thstrm_amount ?? '0');

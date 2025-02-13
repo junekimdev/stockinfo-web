@@ -1,4 +1,4 @@
-import { TypeDartStatementItem } from '../../controllers/data/types';
+import * as gType from '../../controllers/data/types';
 import { shortenNumStringMillion } from '../../controllers/number';
 import styles from './details.module.scss';
 
@@ -9,9 +9,9 @@ const getLiabilitiesRatio = (liabilities?: string, equity?: string) => {
 };
 
 const View = (props: {
-  assets?: TypeDartStatementItem;
-  liabilities?: TypeDartStatementItem;
-  equity?: TypeDartStatementItem;
+  assets?: gType.DartStatementItem;
+  liabilities?: gType.DartStatementItem;
+  equity?: gType.DartStatementItem;
   consolidated?: boolean;
 }) => {
   const { assets, liabilities, equity, consolidated = false } = props;
