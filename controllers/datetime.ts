@@ -1,24 +1,24 @@
 import * as gType from './data/types';
 import { to2DigitString } from './number';
 
-export const getDatetimeString = (date?: gType.Date) => {
+export const getDatetimeString = (date?: Date | gType.IDWeek) => {
   if (!date) return '';
   const { year, month, day, hour, minute, second } = stringfyDatetime(date);
   return `at ${year}-${month}-${day} ${hour}:${minute}:${second}`;
 };
 
-export const getDatetimeStringForFilename = (date?: gType.Date) => {
+export const getDatetimeStringForFilename = (date?: Date | gType.IDWeek) => {
   if (!date) return '';
   const { year, month, day, hour, minute, second } = stringfyDatetime(date);
   return `${year}${month}${day}_${hour}${minute}${second}`;
 };
 
-export const getTimestamp = (date: gType.Date) => {
+export const getTimestamp = (date: Date | gType.IDWeek) => {
   if (date instanceof Date) return date.getTime();
   return toDate(date).getTime();
 };
 
-const stringfyDatetime = (date: gType.Date) => {
+const stringfyDatetime = (date: Date | gType.IDWeek) => {
   if (!(date instanceof Date)) date = toDate(date);
   const year = date.getFullYear().toString();
   const month = to2DigitString(date.getMonth() + 1);

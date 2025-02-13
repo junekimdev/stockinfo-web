@@ -25,7 +25,7 @@ export type DartIndexCode = 'M210000' | 'M220000' | 'M230000' | 'M240000';
 export type DartStatementType = 'OFS' | 'CFS';
 
 export type IDWeek = { year: number; week: number };
-export type Date = { date: Date | IDWeek };
+export type MyDate = { date: Date | IDWeek };
 export type PriceRequest = { code: string; type: PriceRequestType };
 export type IDPriceMA = PriceRequest & { method: AvgMethod; period: number };
 
@@ -43,7 +43,7 @@ export type ChartData =
   | Atrp
   | Chaikin
   | Stochastic;
-export type Price = Date & {
+export type Price = MyDate & {
   open: number;
   close: number;
   high: number;
@@ -54,21 +54,21 @@ export type PriceVolumeRaw = PriceVolume & {
   trading_value: number;
   base_stock_cnt: number;
 };
-export type PricePercentChange = Date & { percent_change: number };
-export type ParabolicSAR = Date & { sar: number; isUpTrend: boolean; distance: number };
-export type MovingAvg = Date & { avg: number };
-export type PriceBollingerBands = Date & {
+export type PricePercentChange = MyDate & { percent_change: number };
+export type ParabolicSAR = MyDate & { sar: number; isUpTrend: boolean; distance: number };
+export type MovingAvg = MyDate & { avg: number };
+export type PriceBollingerBands = MyDate & {
   upper: number;
   middle: number;
   lower: number;
 };
-export type Adx = Date & { posDI: number; negDI: number; adx: number };
-export type Rsi = Date & { rsi: number };
-export type Macd = Date & { macd: number; signal: number; histogram: number };
-export type MacdV = Date & { macdV: number; signal: number; histogram: number };
-export type Atrp = Date & { atrp: number };
-export type Chaikin = Date & { cmf: number; co: number };
-export type Stochastic = Date & { fullK: number; fullD: number };
+export type Adx = MyDate & { posDI: number; negDI: number; adx: number };
+export type Rsi = MyDate & { rsi: number };
+export type Macd = MyDate & { macd: number; signal: number; histogram: number };
+export type MacdV = MyDate & { macdV: number; signal: number; histogram: number };
+export type Atrp = MyDate & { atrp: number };
+export type Chaikin = MyDate & { cmf: number; co: number };
+export type Stochastic = MyDate & { fullK: number; fullD: number };
 
 export type Company = {
   itmsNm: string;

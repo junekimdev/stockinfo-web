@@ -17,7 +17,7 @@ export const getHistogramColor = (d: number) => {
   return d > 0 ? 'red' : 'blue';
 };
 
-export const getDateString = (d: gType.Date) => {
+export const getDateString = (d: gType.MyDate) => {
   if (d.date instanceof Date) {
     const year = d.date.getFullYear();
     const month = to2DigitString(d.date.getMonth() + 1);
@@ -28,7 +28,7 @@ export const getDateString = (d: gType.Date) => {
   return `${year}-w${to2DigitString(week + 1)}`;
 };
 
-export const getXCentered = (d: gType.Date, x: d3.ScaleBand<string>) =>
+export const getXCentered = (d: gType.MyDate, x: d3.ScaleBand<string>) =>
   (x(getDateString(d)) ?? 0) + x.bandwidth() / 2;
 
 interface IChartArgs {
@@ -156,7 +156,7 @@ export const drawLatestPrice = (
   chart: d3.Selection<SVGGElement, unknown, HTMLElement, any>,
   x: d3.ScaleBand<string>,
   y: d3.ScaleLinear<number, number, never>,
-  end: gType.Date,
+  end: gType.MyDate,
   data: gType.Price,
 ) => {
   const w = (x(getDateString(end)) ?? 0) + x.bandwidth();
@@ -175,7 +175,7 @@ export const drawLatestChange = (
   chart: d3.Selection<SVGGElement, unknown, HTMLElement, any>,
   x: d3.ScaleBand<string>,
   y: d3.ScaleLinear<number, number, never>,
-  end: gType.Date,
+  end: gType.MyDate,
   data: number,
 ) => {
   const w = (x(getDateString(end)) ?? 0) + x.bandwidth();
