@@ -59,7 +59,7 @@ const getPrices = async ({ queryKey }: QueryFunctionContext<string[]>) => {
   const res = await fetch(url, { method: 'GET' });
 
   if (res.status >= 400) {
-    const err: gType.Error = await res.json();
+    const err: gType.MyError = await res.json();
     throw Error(err.message);
   }
 
@@ -101,7 +101,7 @@ const getPricesLatest = async ({ queryKey }: QueryFunctionContext<string[]>) => 
   const res = await fetch(url, { method: 'GET' });
 
   if (res.status >= 400) {
-    const err: gType.Error = await res.json();
+    const err: gType.MyError = await res.json();
     throw Error(err.message);
   }
 
@@ -144,7 +144,7 @@ const getPricesLatestAll = async () => {
   const res = await fetch(url, { method: 'GET' });
 
   if (res.status >= 400) {
-    const err: gType.Error = await res.json();
+    const err: gType.MyError = await res.json();
     throw Error(err.message);
   }
 
@@ -155,6 +155,10 @@ const getPricesLatestAll = async () => {
   if (typeof data !== 'object') throw Error(`failed to GET ${url}`);
   if (typeof data?.current_datetime !== 'string') throw Error(`failed to parce data from ${url}`);
   if (prices.length === 0) throw Error(`failed to parce data from ${url}`);
+  // Use the global isNaN(), not Number.isNaN()
+  // b/c Number.isNaN() doesn't attempt to convert the parameter to a number
+  // whereas the global isNaN() coerces its parameter to a number
+  if (isNaN(prices[0].tdd_clsprc.replaceAll(',', ''))) throw Error(`data from ${url} is NaN`);
 
   const r: gType.TreemapData = {
     current_datetime: new Date(data.current_datetime),
