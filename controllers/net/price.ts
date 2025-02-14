@@ -158,7 +158,8 @@ const getPricesLatestAll = async () => {
   // Use the global isNaN(), not Number.isNaN()
   // b/c Number.isNaN() doesn't attempt to convert the parameter to a number
   // whereas the global isNaN() coerces its parameter to a number
-  if (isNaN(prices[0].tdd_clsprc.replaceAll(',', ''))) throw Error(`data from ${url} is NaN`);
+  if (isNaN(Number(prices[0].tdd_clsprc?.replaceAll(',', ''))))
+    throw Error(`data from ${url} is NaN`);
 
   const r: gType.TreemapData = {
     current_datetime: new Date(data.current_datetime),
