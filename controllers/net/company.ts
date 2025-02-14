@@ -29,7 +29,7 @@ const getCompanies = async ({ queryKey }: QueryFunctionContext<string[]>) => {
   }
 
   if (res.status >= 400) {
-    const err: gType.Error = await res.json();
+    const err: gType.MyError = await res.json();
     throw Error(err.message);
   }
 

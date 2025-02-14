@@ -1,4 +1,4 @@
-export type Error = { code: number; message: string };
+export type MyError = { code: number; message: string };
 export type RectCoordi = { x: number; y: number; w: number; h: number };
 
 export type PriceRequestType = 'daily' | 'weekly' | 'latest';
