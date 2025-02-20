@@ -21,7 +21,6 @@ export type Chart =
   | 'cmf'
   | 'so';
 export type DartReportCode = '11011' | '11012' | '11013' | '11014';
-export type DartIndexCode = 'M210000' | 'M220000' | 'M230000' | 'M240000';
 export type DartStatementType = 'OFS' | 'CFS';
 
 export type IDWeek = { year: number; week: number };
@@ -113,22 +112,6 @@ export type TreemapPrice = {
   children?: TreemapPrice[]; // Recursive
 };
 
-export type DartRes = {
-  status: string;
-  message: string;
-  list?: DartIndexItem[];
-};
-export type DartIndexItem = {
-  bsns_year: string;
-  corp_code: string;
-  stock_code: string;
-  reprt_code: string;
-  idx_cl_code: string;
-  idx_cl_nm: string;
-  idx_code: string;
-  idx_nm: string;
-  idx_val?: string;
-};
 export type DartStatementRes = {
   status: string;
   message: string;
