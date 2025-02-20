@@ -50,12 +50,12 @@ export type ChartData =
   | Stochastic;
 
 export type CompanyRaw = {
-  itmsNm: string;
-  srtnCd: string;
-  isinCd: string;
-  mrktCtg: string;
-  crno: string;
-  corpNm: string;
+  itmsNm?: string;
+  srtnCd?: string;
+  isinCd?: string;
+  mrktCtg?: string;
+  crno?: string;
+  corpNm?: string;
 };
 export type Company = {
   name: string;
