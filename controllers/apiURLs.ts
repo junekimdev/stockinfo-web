@@ -5,7 +5,6 @@ export const COMPANIES_URL = API_URL + '/v1/companies';
 export const PRICES_URL = API_URL + '/v1/prices';
 const DART_URL = API_URL + '/v1/dart';
 export const DART_CODE_URL = DART_URL + '/code';
-export const DART_INDEX_URL = DART_URL + '/index';
 export const DART_STATEMENT_URL = DART_URL + '/statement';
 
 export const DART_VIEWER_LINK =
