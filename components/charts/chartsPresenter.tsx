@@ -23,7 +23,7 @@ import Placeholder from './chartsViewPlaceholder';
 
 const Presenter = () => {
   const { company, mainType } = useAtomValue(currentTab);
-  const req: PriceRequest = { code: company.srtnCd, type: mainType };
+  const req: PriceRequest = { code: company.code, type: mainType };
   const { data } = useGetPrices(req);
   const marginLeft = getMarginLeft(data);
   const rulerOnClick = useRulerOnClick();

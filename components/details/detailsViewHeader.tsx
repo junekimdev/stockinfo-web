@@ -8,15 +8,15 @@ import styles from './details.module.scss';
 
 const View = () => {
   const { company } = useAtomValue(gState.currentTab);
-  const req: gType.PriceRequest = { code: company.srtnCd, type: 'latest' };
+  const req: gType.PriceRequest = { code: company.code, type: 'latest' };
   const { data: latestPrice } = useGetPricesLatest(req);
 
   return (
     <header className={styles.header}>
       <div className={styles.headerTitle}>
-        <h2 className={styles.headerName}>{company.itmsNm}</h2>
+        <h2 className={styles.headerName}>{company.name}</h2>
         <a
-          href={DART_VIEWER_LINK + company.srtnCd}
+          href={DART_VIEWER_LINK + company.code}
           className={styles.toDart}
           title="Link to Dart"
           target="_blank"

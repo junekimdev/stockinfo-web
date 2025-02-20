@@ -3,25 +3,9 @@ export type RectCoordi = { x: number; y: number; w: number; h: number };
 
 export type PriceRequestType = 'daily' | 'weekly' | 'latest';
 export type AvgMethod = 'simple' | 'exponential' | 'weighted';
-export type PriceValue = 'close' | 'open' | 'high' | 'low';
-export type PriceVolumeValue = PriceValue | 'volume';
-export type Chart =
-  | 'price'
-  | 'mini-price'
-  | 'volume'
-  | 'percent-change'
-  | 'heikin-aski'
-  | 'heikin-aski-smoothed'
-  | 'adx'
-  | 'rsi'
-  | 'macd'
-  | 'macd-v'
-  | 'atrp'
-  | 'co'
-  | 'cmf'
-  | 'so';
+export type PriceItem = 'close' | 'open' | 'high' | 'low';
+export type PriceVolumeItem = PriceItem | 'volume';
 export type DartReportCode = '11011' | '11012' | '11013' | '11014';
-export type DartIndexCode = 'M210000' | 'M220000' | 'M230000' | 'M240000';
 export type DartStatementType = 'OFS' | 'CFS';
 
 export type IDWeek = { year: number; week: number };
@@ -29,27 +13,8 @@ export type MyDate = { date: Date | IDWeek };
 export type PriceRequest = { code: string; type: PriceRequestType };
 export type IDPriceMA = PriceRequest & { method: AvgMethod; period: number };
 
-export type ChartData =
-  | Price
-  | PriceVolume
-  | PricePercentChange
-  | ParabolicSAR
-  | MovingAvg
-  | PriceBollingerBands
-  | Adx
-  | Rsi
-  | Macd
-  | MacdV
-  | Atrp
-  | Chaikin
-  | Stochastic;
-export type Price = MyDate & {
-  open: number;
-  close: number;
-  high: number;
-  low: number;
-};
-export type PriceVolume = Price & { volume: number };
+export type Price = MyDate & Record<PriceItem, number>;
+export type PriceVolume = MyDate & Record<PriceVolumeItem, number>;
 export type PriceVolumeRaw = PriceVolume & {
   trading_value: number;
   base_stock_cnt: number;
@@ -69,14 +34,34 @@ export type MacdV = MyDate & { macdV: number; signal: number; histogram: number 
 export type Atrp = MyDate & { atrp: number };
 export type Chaikin = MyDate & { cmf: number; co: number };
 export type Stochastic = MyDate & { fullK: number; fullD: number };
+export type ChartData =
+  | Price
+  | PriceVolume
+  | PricePercentChange
+  | ParabolicSAR
+  | MovingAvg
+  | PriceBollingerBands
+  | Adx
+  | Rsi
+  | Macd
+  | MacdV
+  | Atrp
+  | Chaikin
+  | Stochastic;
 
+export type CompanyRaw = {
+  itmsNm?: string;
+  srtnCd?: string;
+  isinCd?: string;
+  mrktCtg?: string;
+  crno?: string;
+  corpNm?: string;
+};
 export type Company = {
-  itmsNm: string;
-  srtnCd: string;
-  isinCd: string;
-  mrktCtg: string;
-  crno: string;
-  corpNm: string;
+  name: string;
+  code: string;
+  fullName: string;
+  mkt: string;
 };
 export type CompanyTab = {
   uuid: string;
@@ -113,22 +98,6 @@ export type TreemapPrice = {
   children?: TreemapPrice[]; // Recursive
 };
 
-export type DartRes = {
-  status: string;
-  message: string;
-  list?: DartIndexItem[];
-};
-export type DartIndexItem = {
-  bsns_year: string;
-  corp_code: string;
-  stock_code: string;
-  reprt_code: string;
-  idx_cl_code: string;
-  idx_cl_nm: string;
-  idx_code: string;
-  idx_nm: string;
-  idx_val?: string;
-};
 export type DartStatementRes = {
   status: string;
   message: string;

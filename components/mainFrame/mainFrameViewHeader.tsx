@@ -9,8 +9,8 @@ import LatestPrice from './mainFrameViewLatestPrice';
 
 const View = () => {
   const { company, mainType } = useAtomValue(gState.currentTab);
-  const dailyReq: gType.PriceRequest = { code: company.srtnCd, type: 'daily' };
-  const weeklyReq: gType.PriceRequest = { code: company.srtnCd, type: 'weekly' };
+  const dailyReq: gType.PriceRequest = { code: company.code, type: 'daily' };
+  const weeklyReq: gType.PriceRequest = { code: company.code, type: 'weekly' };
 
   const onSwitchTypeBtnClick = useSwitchTypeBtnClick();
   const onToggleDetails = useToggleDetails();
@@ -18,13 +18,13 @@ const View = () => {
   return (
     <header className={styles.header}>
       <div className={styles.companyInfo}>
-        <h1>{company.itmsNm}</h1>
+        <h1>{company.name}</h1>
         <div className={styles.companyInfoSub}>
-          <h3>{company.mrktCtg}</h3>
-          <h3>{company.srtnCd}</h3>
+          <h3>{company.mkt}</h3>
+          <h3>{company.code}</h3>
         </div>
         <h3>{mainType}</h3>
-        <LatestPrice code={company.srtnCd} />
+        <LatestPrice code={company.code} />
       </div>
       <div className={styles.miniChartsWrapper}>
         <div className={styles.miniChart}>
