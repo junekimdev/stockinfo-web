@@ -17,7 +17,7 @@ const View = (props: {
   const { equity, netIncome, consolidated } = props;
 
   const { company } = useAtomValue(gState.currentTab);
-  const req: gType.PriceRequest = { code: company.srtnCd, type: 'latest' };
+  const req: gType.PriceRequest = { code: company.code, type: 'latest' };
   const { data: latestPrice } = useGetPricesLatest(req);
   const cap = (latestPrice?.close ?? 0) * (latestPrice?.base_stock_cnt ?? 0);
   const net = Number.parseInt(netIncome?.thstrm_amount ?? '0');

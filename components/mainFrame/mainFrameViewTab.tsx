@@ -14,7 +14,7 @@ const View = (props: { tab: gType.CompanyTab }) => {
 
   return (
     <li
-      title={tab.company.itmsNm}
+      title={tab.company.name}
       className={tab.uuid === currentTab.uuid ? styles.tabItemCurrent : styles.tabItem}
       onClick={onMoveToTabClick}
       onKeyUp={onEnterKey}
@@ -23,7 +23,7 @@ const View = (props: { tab: gType.CompanyTab }) => {
       data-data={JSON.stringify(tab)}
     >
       <i title="move" className={`fa-solid fa-grip-vertical ${styles.tabIconDnD}`} draggable></i>
-      <div className={styles.tabItemText}>{tab.company.itmsNm}</div>
+      <div className={styles.tabItemText}>{tab.company.name}</div>
       <i
         title="close"
         className={`fa-solid fa-xmark ${styles.tabIconClose}`}

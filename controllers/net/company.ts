@@ -33,7 +33,17 @@ const getCompanies = async ({ queryKey }: QueryFunctionContext<string[]>) => {
     throw Error(err.message);
   }
 
-  const data: gType.Company[] = await res.json();
+  const data: gType.CompanyRaw[] = await res.json();
 
-  return data;
+  const result = data.map(
+    (d) =>
+      ({
+        name: d.itmsNm,
+        code: d.srtnCd,
+        fullName: d.corpNm,
+        mkt: d.mrktCtg,
+      }) as gType.Company,
+  );
+
+  return result;
 };

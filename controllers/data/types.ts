@@ -49,13 +49,19 @@ export type ChartData =
   | Chaikin
   | Stochastic;
 
-export type Company = {
+export type CompanyRaw = {
   itmsNm: string;
   srtnCd: string;
   isinCd: string;
   mrktCtg: string;
   crno: string;
   corpNm: string;
+};
+export type Company = {
+  name: string;
+  code: string;
+  fullName: string;
+  mkt: string;
 };
 export type CompanyTab = {
   uuid: string;
