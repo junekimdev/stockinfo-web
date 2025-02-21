@@ -14,3 +14,4 @@ export const DIFF_NATION_URL = process.env.NEXT_PUBLIC_DIFF_NATION_URL ?? 'http:
 
 export const LOCAL_STORAGE_KEY_COMPANY_TABS = 'stockinfo-company-tabs';
 export const LOCAL_STORAGE_KEY_RECENT_SEARCH_TABS = 'stockinfo-recent-search-tabs';
+export const LOCAL_STORAGE_KEY_COMPANY_VERSION = 'stockinfo-company-version';
