@@ -8,7 +8,7 @@ import styles from './details.module.scss';
 
 const View = () => {
   const { company } = useAtomValue(gState.currentTab);
-  const req: gType.PriceRequest = { code: company.code, type: 'latest' };
+  const req: gType.PriceRequest = { code: company.codePrice, type: 'latest' };
   const { data: latestPrice } = useGetPricesLatest(req);
 
   return (
@@ -16,7 +16,7 @@ const View = () => {
       <div className={styles.headerTitle}>
         <h2 className={styles.headerName}>{company.name}</h2>
         <a
-          href={DART_VIEWER_LINK + company.code}
+          href={DART_VIEWER_LINK + company.codeReport}
           className={styles.toDart}
           title="Link to Dart"
           target="_blank"

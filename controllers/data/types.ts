@@ -59,8 +59,9 @@ export type CompanyRaw = {
 };
 export type Company = {
   name: string;
-  code: string;
   fullName: string;
+  codePrice: string;
+  codeReport: string;
   mkt: string;
 };
 export type CompanyTab = {

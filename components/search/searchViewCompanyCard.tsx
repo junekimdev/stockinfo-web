@@ -4,7 +4,7 @@ import { useCompanyClick } from './searchInteractor';
 
 const View = (props: { data: gType.Company; uuid: string }) => {
   const { data, uuid } = props;
-  const { name, code, fullName, mkt } = data;
+  const { name, codePrice: code, fullName, mkt } = data;
   const onCompanyClick = useCompanyClick(uuid, data);
 
   return (

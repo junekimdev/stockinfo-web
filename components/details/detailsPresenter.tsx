@@ -16,7 +16,7 @@ const getData = (res: gType.DartStatementRes | undefined, sj_div: string, accoun
 
 const Presenter = () => {
   const { company } = useAtomValue(gState.currentTab);
-  const { data: dartCode } = useGetDartCode(company.code);
+  const { data: dartCode } = useGetDartCode(company.codeReport);
   const { data: cfs_data } = useGetDartStatement(dartCode ?? '', '11011', 'CFS');
   const { data: fs_data } = useGetDartStatement(dartCode ?? '', '11011', 'OFS');
 
