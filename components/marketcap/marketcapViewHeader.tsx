@@ -10,7 +10,6 @@ const View = (props: { svgID: string }) => {
   const filename = `jkstock_krx_treemap_${timestamp}`;
 
   const onDownloadClick = useDownloadClick(svgID, filename);
-  const onDownloadNotReadyClick = () => alert('Image is not yet ready to download');
 
   return (
     <header className={styles.header}>
@@ -21,7 +20,9 @@ const View = (props: { svgID: string }) => {
       <div
         className={styles.downloadBtn}
         title="Download Treemap"
-        onClick={data?.treemap ? onDownloadClick : onDownloadNotReadyClick}
+        onClick={
+          data?.treemap ? onDownloadClick : () => alert('Image is not yet ready to download')
+        }
       >
         <i className="fa-solid fa-download"></i>
       </div>
