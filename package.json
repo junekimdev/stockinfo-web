@@ -9,14 +9,14 @@
     "dev": "next dev",
     "build": "next build",
     "export": "next export",
-    "lint": "eslint",
-    "lint-inspect": "eslint --inspect-config",
-    "start": "next start"
+    "start": "next start",
+    "lint": "oxlint",
+    "lint:fix": "oxlint --fix"
   },
   "dependencies": {
     "@tanstack/react-query": "^5.101.2",
     "d3": "^7.9.0",
-    "jotai": "^2.20.1",
+    "jotai": "^3.0.1",
     "jotai-family": "^1.0.2",
     "next": "^16.2.9",
     "react": "^19.2.7",
@@ -25,9 +25,6 @@
     "sharp": "^0.35.2"
   },
   "devDependencies": {
-    "@eslint/js": "^10.0.1",
-    "@next/eslint-plugin-next": "^16.2.9",
-    "@stylistic/eslint-plugin": "^5.10.0",
     "@tanstack/eslint-plugin-query": "^5.101.2",
     "@tanstack/react-query-devtools": "^5.101.2",
     "@testing-library/react": "^16.3.2",
@@ -36,13 +33,12 @@
     "@types/react": "^19.2.17",
     "@types/react-dom": "^19.2.3",
     "ejs": "^6.0.1",
-    "eslint": "^10.6.0",
-    "eslint-plugin-react": "^7.37.5",
-    "eslint-plugin-react-hooks": "^7.1.1",
     "jest": "^30.4.2",
     "jest-environment-jsdom": "^30.4.1",
-    "prettier": "^3.9.4",
-    "typescript": "^6.0.3",
+    "oxfmt": "^0.71.0",
+    "oxlint": "^1.86.0",
+    "oxlint-tsgolint": "^7.0.2003",
+    "typescript": "^7.0.2",
     "typescript-eslint": "^8.62.1"
   },
   "browserslist": {

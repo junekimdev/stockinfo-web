@@ -4,7 +4,7 @@ import * as gType from '../data/types';
 
 export const useGetDartCode = (stockCode: string) => {
   return useQuery({
-    queryKey: ['dart', 'code', stockCode],
+    queryKey: ['dart', 'code', stockCode] as const,
     queryFn: getDartCode,
     enabled: !!stockCode,
     staleTime: Infinity,
@@ -18,7 +18,7 @@ export const useGetDartStatement = (
   statementCode: gType.DartStatementType,
 ) => {
   return useQuery({
-    queryKey: ['dart', 'statement', dartCode, reportCode, statementCode],
+    queryKey: ['dart', 'statement', dartCode, reportCode, statementCode] as const,
     queryFn: getDartStatement,
     enabled: !!dartCode && !!reportCode && !!statementCode,
     staleTime: Infinity,
@@ -26,7 +26,9 @@ export const useGetDartStatement = (
   });
 };
 
-const getDartCode = async ({ queryKey }: QueryFunctionContext<string[]>) => {
+const getDartCode = async ({
+  queryKey,
+}: QueryFunctionContext<readonly ['dart', 'code', string]>) => {
   const [_key1, _key2, stockCode] = queryKey;
 
   const url = `${DART_CODE_URL}/${stockCode}`;
@@ -42,7 +44,11 @@ const getDartCode = async ({ queryKey }: QueryFunctionContext<string[]>) => {
   return data;
 };
 
-const getDartStatement = async ({ queryKey }: QueryFunctionContext<string[]>) => {
+const getDartStatement = async ({
+  queryKey,
+}: QueryFunctionContext<
+  readonly ['dart', 'statement', string, gType.DartReportCode, gType.DartStatementType]
+>) => {
   const [_key1, _key2, dartCode, reportCode, statementCode] = queryKey;
 
   const url = `${DART_STATEMENT_URL}/${dartCode}/${reportCode}/${statementCode}`;

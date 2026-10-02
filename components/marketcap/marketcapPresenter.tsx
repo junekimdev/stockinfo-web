@@ -14,7 +14,7 @@ const Presenter = () => {
     if (isError) {
       console.error(error.message);
       alert(error.message);
-      router.replace('/search').then(() => {});
+      void router.replace('/search');
     }
   }, [error, isError, router]);
 
