@@ -31,6 +31,7 @@ export const useDraw = (svgID: string, max = 100) => {
     const hierarcy = d3
       .hierarchy(data.treemap)
       .sum((d) => d.value ?? 0)
+      // oxlint-disable-next-line unicorn/no-array-sort
       .sort((a, b) => (b.value ?? 0) - (a.value ?? 0));
 
     const root = d3
@@ -50,11 +51,11 @@ export const useDraw = (svgID: string, max = 100) => {
       (d, i) =>
         `${d
           .ancestors()
-          .reverse()
-          .map((d) => d.data.name)
+          .toReversed()
+          .map((v) => v.data.name)
           .join(
             '.',
-          )}\nMktCap#${i + 1}\n${format(d.data.close ?? 0)}\n${`${d.data.change_percentage ?? '-'}%`}`,
+          )}\nMktCap#${i + 1}\n${format(d.data.close ?? 0)}\n${d.data.change_percentage ?? '-'}%`,
     );
 
     leaf
@@ -113,29 +114,33 @@ export const useDownloadClick = (svgID: string, filename: string) => {
     // load the SVG blob to a flesh image object
     const img = new Image();
     img.src = url;
-    img.onload = () => {
-      // draw the image on an ad-hoc canvas
-      // QHD resolution: 2560x1440
-      const width = 2560;
-      const height = 1440;
+    img.addEventListener(
+      'load',
+      () => {
+        // draw the image on an ad-hoc canvas
+        // QHD resolution: 2560x1440
+        const width = 2560;
+        const height = 1440;
 
-      const canvas = document.createElement('canvas');
-      canvas.width = width;
-      canvas.height = height;
+        const canvas = document.createElement('canvas');
+        canvas.width = width;
+        canvas.height = height;
 
-      const cxt = canvas.getContext('2d');
-      if (!cxt) throw Error('failed to get context from canvas');
-      cxt.drawImage(img, 0, 0, width, height);
+        const cxt = canvas.getContext('2d');
+        if (!cxt) throw Error('failed to get context from canvas');
+        cxt.drawImage(img, 0, 0, width, height);
 
-      URL.revokeObjectURL(url);
+        URL.revokeObjectURL(url);
 
-      // trigger a synthetic download operation with a temporary link
-      const a = document.createElement('a');
-      a.download = filename;
-      document.body.appendChild(a);
-      a.href = canvas.toDataURL();
-      a.click();
-      a.remove();
-    };
+        // trigger a synthetic download operation with a temporary link
+        const a = document.createElement('a');
+        a.download = filename;
+        document.body.appendChild(a);
+        a.href = canvas.toDataURL();
+        a.click();
+        a.remove();
+      },
+      { once: true },
+    );
   }, [svgID, filename]);
 };
