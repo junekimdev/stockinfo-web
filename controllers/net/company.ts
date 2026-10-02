@@ -10,7 +10,7 @@ export const useGetCompanies = () => {
   const search_word = useDebounce(useAtomValue(gState.searchInput), 300);
 
   return useQuery({
-    queryKey: ['company', search_word],
+    queryKey: ['company', search_word] as const,
     queryFn: getCompanies,
     enabled: !!search_word,
     staleTime: Infinity,
@@ -18,7 +18,7 @@ export const useGetCompanies = () => {
   });
 };
 
-const getCompanies = async ({ queryKey }: QueryFunctionContext<string[]>) => {
+const getCompanies = async ({ queryKey }: QueryFunctionContext<readonly ['company', string]>) => {
   const [_key, search_word] = queryKey;
 
   const url = `${COMPANIES_URL}/${encodeURIComponent(search_word)}`;
@@ -35,13 +35,13 @@ const getCompanies = async ({ queryKey }: QueryFunctionContext<string[]>) => {
 
   const data: gType.CompanyRaw[] = await res.json();
 
-  const result = data.map((d) => {
+  const result: gType.Company[] = data.map((d) => {
     const name = d.itmsNm ?? '';
     const fullName = d.corpNm ?? '';
     const codePrice = d.srtnCd ?? '';
     const codeReport = d.srtnCd ?? '';
     const mkt = d.mrktCtg ?? 'KR Market';
-    return { name, fullName, codePrice, codeReport, mkt } as gType.Company;
+    return { name, fullName, codePrice, codeReport, mkt };
   });
 
   return result;

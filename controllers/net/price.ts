@@ -9,7 +9,7 @@ import { getTimestamp } from '../datetime';
 export const useGetPrices = (req: gType.PriceRequest) => {
   const { code, type } = req;
   return useQuery({
-    queryKey: ['prices', code, type],
+    queryKey: ['prices', code, type] as const,
     queryFn: getPrices,
     enabled: !!code && !!type,
     staleTime: Infinity,
@@ -24,8 +24,8 @@ export const useGetPricesPrefetching = () => {
     for (const tab of tabs) {
       const code = tab.company.codePrice;
       const type = tab.mainType;
-      queryClient.prefetchQuery({
-        queryKey: ['prices', code, type],
+      void queryClient.prefetchQuery({
+        queryKey: ['prices', code, type] as const,
         queryFn: getPrices,
         staleTime: Infinity,
       });
@@ -36,7 +36,7 @@ export const useGetPricesPrefetching = () => {
 export const useGetPricesLatest = (req: gType.PriceRequest) => {
   const { code, type } = req;
   return useQuery({
-    queryKey: ['prices', code, type],
+    queryKey: ['prices', code, type] as const,
     queryFn: getPricesLatest,
     enabled: !!code && !!type,
     staleTime: 60000, // 60s
@@ -51,9 +51,11 @@ export const useGetPricesLatestAll = () => {
   });
 };
 
-const getPrices = async ({ queryKey }: QueryFunctionContext<string[]>) => {
+const getPrices = async ({
+  queryKey,
+}: QueryFunctionContext<readonly ['prices', string, gType.PriceRequestType]>) => {
   const [_key, code, _t] = queryKey;
-  const t = _t as gType.PriceRequestType;
+  const t = _t;
   if (!code) return [];
 
   const url = `${PRICES_URL}/${code}/${t}`;
@@ -74,12 +76,12 @@ const getPrices = async ({ queryKey }: QueryFunctionContext<string[]>) => {
   // parse numeric string to number
   const data: gType.PriceVolumeRaw[] = prices
     .filter((v) => v.open) // This filters out no trading days (e.g. no trading for stock split)
-    .reverse() // This makes ascending order
+    .toReversed() // This makes ascending order
     .map((v) => {
       const base_stock_cnt = parseInt(v.base_stock_cnt);
       const scaler = base_stock_cnt / base;
       const r = {
-        date: t === 'weekly' ? ({ year: v.year, week: v.week } as gType.IDWeek) : new Date(v.date),
+        date: t === 'weekly' ? { year: v.year, week: v.week } : new Date(v.date),
         open: Math.round((t === 'weekly' ? parseInt(v.open) : v.open) * scaler),
         close: Math.round((t === 'weekly' ? parseInt(v.close) : v.close) * scaler),
         high: Math.round((t === 'weekly' ? parseInt(v.high) : v.high) * scaler),
@@ -94,9 +96,11 @@ const getPrices = async ({ queryKey }: QueryFunctionContext<string[]>) => {
   return data;
 };
 
-const getPricesLatest = async ({ queryKey }: QueryFunctionContext<string[]>) => {
+const getPricesLatest = async ({
+  queryKey,
+}: QueryFunctionContext<readonly ['prices', string, gType.PriceRequestType]>) => {
   const [_key, code, _t] = queryKey;
-  const t = _t as gType.PriceRequestType;
+  const t = _t;
   if (!code) return;
 
   const url = `${PRICES_URL}/${code}/${t}`;
